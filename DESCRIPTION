@@ -14,3 +14,5 @@ Imports:
     rgl,
     dplyr,
     htmlwidgets
+URL: https://github.com/dawson-tree/facetseparater
+BugReports: https://github.com/dawson-tree/facetseparater/issues
