@@ -6,7 +6,6 @@
 \usage{
 kde_filter(
   building,
-  buildings,
   full_slope_raster,
   n = 2048,
   adjust = 1,

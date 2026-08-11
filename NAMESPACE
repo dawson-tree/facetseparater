@@ -2,9 +2,6 @@
 
 export(facet_separation)
 export(facet_snow_depth)
-export(kde_building_results)
-export(kde_filter)
-export(kde_roof_slope_RANSAC)
 export(plot_full_building_plane_kde)
 export(plot_raster)
 import(rgl)
