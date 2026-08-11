@@ -1,3 +1,10 @@
+#' Plot raster and buildings
+#'
+#' Plot a raster and building polygons within a specified extent.
+#'
+#' @param raster A raster to plot
+#'
+#'
 #' @importFrom terra crop
 #'
 #' @export

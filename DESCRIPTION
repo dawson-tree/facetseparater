@@ -16,3 +16,6 @@ Imports:
     htmlwidgets
 URL: https://github.com/dawson-tree/facetseparater
 BugReports: https://github.com/dawson-tree/facetseparater/issues
+Depends: 
+    R (>= 3.5)
+LazyData: true
