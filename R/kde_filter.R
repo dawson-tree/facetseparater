@@ -75,3 +75,4 @@ kde_filter <- function(building,
 
   patch_slope_raster
 }
+

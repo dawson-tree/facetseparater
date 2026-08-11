@@ -1,3 +1,12 @@
+#' Separate a building roof into separate facets
+#'
+#' Extract the slope for each pixel in a raster and use kernel density
+#'     estimation to filter out the pixels that are most likely to contain facet
+#'     edges, then create roof facets out of the remaining pixels and perform
+#'     the RANSAC algorithm on each facet to determine facet slope and aspect,
+#'     with options to plot the resulting facets.
+#'
+#'
 #' @importFrom dplyr filter
 #' @importFrom terra terrain
 #'
@@ -44,10 +53,10 @@ facet_separation <- function(id,
   if (!quiet) {
     title = paste0("Final Facets after RANSAC Algorithm - Building ",
                    building$building_id)
-    plot_raster(kde_results[['facet_polys']],
+    plot_raster2(kde_results[['facet_polys']],
                 building,
-                xmin, xmax,
-                ymin, ymax,
+                # xmin, xmax,
+                # ymin, ymax,
                 title = title)
     text(kde_results[['facet_polys']],
          labels = names(kde_results[['results_list']]),
