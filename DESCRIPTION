@@ -1,9 +1,9 @@
 Package: facetseparater
-Title: What the Package Does (One Line, Title Case)
+Title: Separates building roofs into separate facets and gives summary statistics by facet
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Dawson", "Tree", , "Dtree03@gmail.com", role = c("aut", "cre"))
+Description: This package builds off of the workflow outlined by the rasterpolygonizer package to take Lidar elevation data and building polygons and (finish this)
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
