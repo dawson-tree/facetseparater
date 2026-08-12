@@ -6,6 +6,7 @@
 #'     the RANSAC algorithm on each facet to determine facet slope and aspect,
 #'     with options to plot the resulting facets.
 #'
+#' @param id
 #'
 #' @importFrom dplyr filter
 #' @importFrom terra terrain

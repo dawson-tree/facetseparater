@@ -21,6 +21,9 @@ facet_separation(
   quiet3d = FALSE
 )
 }
+\arguments{
+\item{id}{}
+}
 \description{
 Extract the slope for each pixel in a raster and use kernel density
 estimation to filter out the pixels that are most likely to contain facet
