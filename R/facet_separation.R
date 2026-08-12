@@ -28,9 +28,10 @@ facet_separation <- function(id,
 
   building <- dplyr::filter(buildings, building_id == id)
 
-  slope_raster <- terra::terrain(raster,
+  full_slope_raster <- terra::terrain(raster,
                                  v = "slope",
                                  unit = "degrees")
+  slope_raster <- crop(full_slope_raster, building, mask = TRUE)
 
   facets <- kde_filter(building,
                        slope_raster,
@@ -51,6 +52,25 @@ facet_separation <- function(id,
                                       quiet = quiet)
 
   if (!quiet) {
+    raster_title = paste0("Corrected Raster - Building ",
+                         building$building_id)
+    plot_raster2(raster,
+                 building,
+                 # xmin, xmax,
+                 # ymin, ymax,
+                 title = raster_title)
+
+    slope_title = paste0("Slope Raster - Building ",
+                         building$building_id)
+    # slope_title = paste0("Slope Raster for Building ", building$building_id,
+    #                      " (Bandwidth = ", round(dens$bw, 3), ")")
+    plot_raster2(slope_raster,
+                 building,
+                 # xmin, xmax,
+                 # ymin, ymax,
+                 title = slope_title)
+
+
     title = paste0("Final Facets after RANSAC Algorithm - Building ",
                    building$building_id)
     plot_raster2(kde_results[['facet_polys']],
