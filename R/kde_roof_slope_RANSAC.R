@@ -30,7 +30,7 @@ kde_roof_slope_RANSAC <- function(raster,
     v  <- stats::na.omit(ex)
 
     if (nrow(v) < min_inliers) {
-      if (!quiet) message("Building ", id, ": not enough points.")
+      if (!quiet) message("Facet ", id, ": not enough points.")
       next
     }
 

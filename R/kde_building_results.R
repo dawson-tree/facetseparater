@@ -6,18 +6,27 @@ kde_building_results <- function(facets,
                                  min_inliers = 10L,
                                  quiet = FALSE) {
 
-  building_results <- lapply(facets,
-                             function(x) {
-                               kde_roof_slope_RANSAC(
-                                 raster      = raster,
-                                 facets      = facets,
-                                 building_id = building_id,
-                                 n_iter      = n,
-                                 thresh      = 0.1,
-                                 min_inliers = min_inliers,
-                                 quiet = quiet
-                               )
-                             })
+  total_building_results <- lapply(facets,
+                                   function(x) {
+                                     kde_roof_slope_RANSAC(
+                                       raster      = raster,
+                                       facets      = facets,
+                                       building_id = building_id,
+                                       n_iter      = n,
+                                       thresh      = 0.1,
+                                       min_inliers = min_inliers,
+                                       quiet = quiet
+                                     )
+                                   })
 
-  building_results[['patches']]
+  building_results <- total_building_results[['patches']]
+
+  names(building_results[['results_list']]) <-
+    seq_along(building_results[['results_list']])
+
+  for (i in seq_along(building_results[['results_list']])) {
+    building_results[['results_list']][[i]][['facet_no']] <- i
+  }
+
+  building_results
 }
