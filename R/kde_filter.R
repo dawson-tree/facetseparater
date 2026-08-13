@@ -4,8 +4,6 @@ kde_filter <- function(building,
                        full_slope_raster,
                        n = 2048,
                        adjust = 1,
-                       xmin, xmax,
-                       ymin, ymax,
                        quiet = FALSE) {
 
   slope_raster <- crop(full_slope_raster, building, mask = TRUE)

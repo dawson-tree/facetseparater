@@ -4,9 +4,22 @@
 #'     estimation to filter out the pixels that are most likely to contain facet
 #'     edges, then create roof facets out of the remaining pixels and perform
 #'     the RANSAC algorithm on each facet to determine facet slope and aspect,
-#'     with options to plot the resulting facets.
+#'     with options to plot raster information and resulting facets.
 #'
-#' @param id
+#' @param id The 'building_id' for the specific building rooftop to be
+#'     split into facets
+#' @param buildings An object of the classes 'sf::sf' and 'data.frame' that was
+#'     created using the workflow from the package 'rasterpolygonizer' that
+#'     represents the interior polygon of a set of buildings
+#' @param raster An elevation raster of the class 'terra::SpatRaster'
+#' @param
+#'
+#'
+#'
+#'
+#'
+#'
+#'
 #'
 #' @importFrom dplyr filter
 #' @importFrom terra terrain
@@ -15,15 +28,14 @@
 facet_separation <- function(id,
                              buildings,
                              raster,
-                             xmin, xmax,
-                             ymin, ymax,
                              seed = 1234,
                              adjust = 1,
                              kde_n = 2048,
                              n = 500L,
                              min_inliers = 10L,
                              quiet = FALSE,
-                             quiet3d = FALSE){
+                             plot = TRUE,
+                             plot3d = TRUE){
 
   set.seed(seed)
 
@@ -38,8 +50,6 @@ facet_separation <- function(id,
                        slope_raster,
                        n = kde_n,
                        adjust = adjust,
-                       xmin, xmax,
-                       ymin, ymax,
                        quiet = quiet)
 
   facet_polys <- as.polygons(facets, aggregate = TRUE, na.rm = TRUE)
@@ -52,32 +62,26 @@ facet_separation <- function(id,
                                       min_inliers = min_inliers,
                                       quiet = quiet)
 
-  if (!quiet) {
+  if (plot) {
     raster_title = paste0("Corrected Raster - Building ",
                          building$building_id)
-    plot_raster2(raster,
+    plot_raster(raster,
                  building,
-                 # xmin, xmax,
-                 # ymin, ymax,
                  title = raster_title)
 
     slope_title = paste0("Slope Raster - Building ",
                          building$building_id)
     # slope_title = paste0("Slope Raster for Building ", building$building_id,
     #                      " (Bandwidth = ", round(dens$bw, 3), ")")
-    plot_raster2(slope_raster,
+    plot_raster(slope_raster,
                  building,
-                 # xmin, xmax,
-                 # ymin, ymax,
                  title = slope_title)
 
 
     title = paste0("Final Facets after RANSAC Algorithm - Building ",
                    building$building_id)
-    plot_raster2(kde_results[['facet_polys']],
+    plot_raster(kde_results[['facet_polys']],
                 building,
-                # xmin, xmax,
-                # ymin, ymax,
                 title = title)
     text(kde_results[['facet_polys']],
          labels = names(kde_results[['results_list']]),
@@ -85,7 +89,7 @@ facet_separation <- function(id,
          font = 2)
   }
 
-  if (!quiet3d) {
+  if (plot3d) {
     plot_full_building_plane_kde(results_obj = kde_results,
                                  raster = raster,
                                  building = building,
