@@ -1,4 +1,120 @@
 
+
+
+
+
+
+
+
+
+# Diff between 4 and 5 is the mean of diff 1-2 and diff 7-8
+
+
+na_imputation2 <- function(raster,
+                          w = 3) {
+  corrected_raster <- focal(
+    raster,
+    w = w,
+    fun = function(x) {
+      # x[5] is the center focal cell
+      focal_val <- x[5]
+
+      # If the focal cell is already valid, keep its original value
+      if (!is.na(focal_val)) {
+        return(focal_val)
+      }
+
+
+
+      diff4to5 <- mean(
+        c(x[2] - x[1],
+          x[8] - x[7]),
+        na.rm = TRUE)
+      diff6to5 <- mean(
+        c(x[2] - x[3],
+          x[8] - x[9]),
+        na.rm = TRUE)
+      diff2to5 <- mean(
+        c(x[4] - x[1],
+          x[6] - x[3]),
+        na.rm = TRUE)
+      diff8to5 <- mean(
+        c(x[4] - x[7],
+          x[6] - x[9]),
+        na.rm = TRUE)
+
+      new_focal_val <- mean(
+        c(x[2] + diff2to5,
+          x[4] + diff4to5,
+          x[6] + diff6to5,
+          x[8] + diff8to5),
+        na.rm = TRUE
+      )
+
+      new_focal_val
+    }
+  )
+
+  corrected_raster
+}
+
+
+erode <- function(raster) {
+  corrected_raster <- focal(
+    raster,
+    w = 3,
+    fun = function(x) {
+      # x[5] is the center focal cell
+      focal_val <- x[5]
+
+      # If the focal cell is already valid, keep its original value
+      if (is.na(focal_val)) {
+        return(NA)
+      }
+
+      neighbors4 <- x[c(2,4,6,8)]
+      neighbors8 <- x[c(1,2,3,4,6,7,8,9,1)]
+
+      if (sum(is.na(neighbors4)) >= 2) {
+        # Keep track of the times it switches from NA to valid
+        switch <- 0
+
+        for (i in (seq_len(length(neighbors8) - 1))) {
+          if (is.na(x[i]) != is.na(x[i+1])) {
+            switch <- switch + 1
+          }
+        }
+
+        if (switch > 2) {
+          return(NA)
+        }
+
+      }
+      as.numeric(focal_val)
+    }
+  )
+
+  corrected_raster
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 na_imputation <- function(raster,
                           w = 3) {
   corrected_raster <- focal(
@@ -15,11 +131,11 @@ na_imputation <- function(raster,
       }
 
       # Extract neighbors and count non-NA values
-      neighbors <- x[-5]
+      neighbors <- x[c(2,4,6,8)]
       valid_count <- sum(!is.na(neighbors))
 
       # Only fill if 6 or more neighbors are valid
-      if (valid_count >= 6) {
+      if (valid_count >= 3) {
         return(mean(neighbors, na.rm = TRUE))
       } else {
         return(NA)
@@ -30,3 +146,35 @@ na_imputation <- function(raster,
   corrected_raster
 }
 
+
+
+# na_imputation <- function(raster,
+#                           w = 3) {
+#   corrected_raster <- focal(
+#     raster,
+#     w = w,
+#     fun = function(x) {
+#       # x[5] is the center focal cell
+#       # x[-5] extracts the 8 surrounding neighbors
+#       focal_val <- x[5]
+#
+#       # If the focal cell is already valid, keep its original value
+#       if (!is.na(focal_val)) {
+#         return(focal_val)
+#       }
+#
+#       # Extract neighbors and count non-NA values
+#       neighbors <- x[-5]
+#       valid_count <- sum(!is.na(neighbors))
+#
+#       # Only fill if 6 or more neighbors are valid
+#       if (valid_count >= 6) {
+#         return(mean(neighbors, na.rm = TRUE))
+#       } else {
+#         return(NA)
+#       }
+#     }
+#   )
+#
+#   corrected_raster
+# }

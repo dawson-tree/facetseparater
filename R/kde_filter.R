@@ -42,18 +42,13 @@ kde_filter <- function(building,
   clamped_slope_raster <- clamp(slope_raster,
                                 lower = lower_cutoff, upper = upper_cutoff, values = FALSE)
 
-  patch_slope_raster <- patches(clamped_slope_raster, directions = 4)
+  # Erosion function
+
+  eroded_slope_raster <- erode(clamped_slope_raster)
+
+  patch_slope_raster <- patches(eroded_slope_raster, directions = 4) # ????
 
   if (!quiet) {
-    # slope_title = paste0("Slope Raster - Building ",
-    #                      building$building_id)
-    # # slope_title = paste0("Slope Raster for Building ", building$building_id,
-    # #                      " (Bandwidth = ", round(dens$bw, 3), ")")
-    # plot_raster2(slope_raster,
-    #             building,
-    #             # xmin, xmax,
-    #             # ymin, ymax,
-    #             title = slope_title)
 
     # Print KDE summary
     cat(sprintf("Main Peak at: %.2f\n", main_peak_x))
@@ -62,13 +57,6 @@ kde_filter <- function(building,
                 length(filtered_slope_vector), length(slope_vector),
                 100 * length(filtered_slope_vector) / length(slope_vector)))
 
-    # patch_title = paste0("Possible Facets after KDE Filter - Building ",
-    #                      building$building_id)
-    # plot_raster2(patch_slope_raster,
-    #             building,
-    #             # xmin, xmax,
-    #             # ymin, ymax,
-    #             title = patch_title)
   }
 
   patch_slope_raster
