@@ -58,7 +58,7 @@ fs_results <- facet_separation(id = 165,
 
 fs_results <- facet_separation(id = 165,
                                buildings = smoothed_buildings,
-                               raster = corrected_raster_new2,
+                               raster = corrected_raster,
                                seed = 1234,
                                adjust = 1,
                                kde_n = 2048,
@@ -66,48 +66,48 @@ fs_results <- facet_separation(id = 165,
                                min_inliers = 10L,
                                quiet = FALSE,
                                plot = TRUE,
-                               plot3d = TRUE)
+                               plot3d = FALSE)
 
 
 
 fs_results <- facet_separation(id = 711,
                                buildings = smoothed_buildings,
-                               raster = corrected_raster_new2,
-                               plot3d = TRUE)
+                               raster = corrected_raster,
+                               plot3d = FALSE)
 fs_results <- facet_separation(167,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 
 
 
 fs_results <- facet_separation(169,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 fs_results <- facet_separation(959,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 fs_results <- facet_separation(305,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 
 
 
 fs_results <- facet_separation(208,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 fs_results <- facet_separation(378,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 fs_results <- facet_separation(217,
                                smoothed_buildings,
-                               corrected_raster_new2,
-                               plot3d = TRUE)
+                               corrected_raster,
+                               plot3d = FALSE)
 
 corrected_raster_new <- na_imputation(merged_raster_low_snow)
 

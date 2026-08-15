@@ -1,7 +1,9 @@
+# Maybe switch to facet_roof_slope_RANSAC
+
 #' @importFrom terra nrow
 #' @importFrom stats coef
 #'
-kde_roof_slope_RANSAC <- function(raster,
+roof_facet_slope_ransac <- function(raster,
                                   facets,
                                   building_id,
                                   n_iter = 500L,

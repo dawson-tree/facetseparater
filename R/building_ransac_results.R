@@ -1,14 +1,19 @@
-
-kde_building_results <- function(facets,
-                                 raster,
-                                 building_id,
-                                 n = 100L,
-                                 min_inliers = 10L,
-                                 quiet = FALSE) {
+#' Get RANSAC algorithm results for multiple roof facets
+#'
+#' Perform the RANSAC algorithm to estimate the slope and aspect of multiple
+#'     roof facets from one building.
+#'
+#' @param facets
+building_ransac_results <- function(facets,
+                                    raster,
+                                    building_id,
+                                    n = 100L,
+                                    min_inliers = 10L,
+                                    quiet = FALSE) {
 
   total_building_results <- lapply(facets,
                                    function(x) {
-                                     kde_roof_slope_RANSAC(
+                                     roof_facet_slope_ransac(
                                        raster      = raster,
                                        facets      = facets,
                                        building_id = building_id,

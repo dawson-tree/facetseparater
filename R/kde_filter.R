@@ -1,12 +1,41 @@
 #' Filter raster pixels using kernel density estimation
 #'
+#' Use kernel density estimation to estimate the distribution of the slope of
+#'     rooftop pixels. Then only pixels in the primary distribution are kept to
+#'     filter out the pixels that are most likely to contain facet
+#'     edges. An additional processing step removes single pixel-wide bridges
+#'     connecting multiple groups of valid pixels. At this point, the raster is
+#'     divided into separate roof facets. A summary of the kernel density
+#'     estimation results is printed as well.
+#'
+#' @param building An object of the classes 'sf::sf' and 'data.frame' that was
+#'     created using the workflow from the package 'rasterpolygonizer' that
+#'     has one observation representing the interior polygon of one building.
+#' @param full_slope_raster A raster of the class 'terra::SpatRaster' that shows
+#'     the slope value for each pixel, as calculated by the 'terra:terrain'
+#'     function.
+#' @param adjust The 'adjust' argument given to the 'density' function, or the
+#'     adjustment to the smoothing bandwidth used for kernel density estimation.
+#'     More detailed information can be found in the 'density'function
+#'     documentation.
+#' @param n The 'n' argument given to the 'density' function, or the number of
+#'     points at which the density is estimated when performing kernel density
+#'     estimation. More information can be found in the 'density' function
+#'     documentation.
+#' @param quiet Logical argument indicating whether summary messages should be
+#'     printed.
+#'
+#' @return A 'terra::SpatRaster' object where the value of each pixel indicates
+#'     the roof facet (if any) that it is a part of.
+#'
+#' @importFrom terra patches
 kde_filter <- function(building,
-                       full_slope_raster,
-                       n = 2048,
+                       slope_raster,
                        adjust = 1,
+                       n = 2048,
                        quiet = FALSE) {
 
-  slope_raster <- crop(full_slope_raster, building, mask = TRUE)
+  # slope_raster <- crop(full_slope_raster, building, mask = TRUE)
 
   slope_vector <- values(slope_raster, mat = FALSE) |>
     na.omit()
@@ -46,7 +75,7 @@ kde_filter <- function(building,
 
   eroded_slope_raster <- erode(clamped_slope_raster)
 
-  patch_slope_raster <- patches(eroded_slope_raster, directions = 4) # ????
+  patch_slope_raster <- terra::patches(eroded_slope_raster, directions = 4) # ????
 
   if (!quiet) {
 

@@ -3,7 +3,7 @@
 #' @importFrom htmlwidgets saveWidget
 #'
 #' @export
-plot_full_building_plane_kde <- function(results_obj,
+plot_facets_3d <- function(results_obj,
                                          raster,
                                          building,
                                          thresh = 0.1,
