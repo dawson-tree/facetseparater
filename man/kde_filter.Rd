@@ -4,18 +4,40 @@
 \alias{kde_filter}
 \title{Filter raster pixels using kernel density estimation}
 \usage{
-kde_filter(
-  building,
-  full_slope_raster,
-  n = 2048,
-  adjust = 1,
-  xmin,
-  xmax,
-  ymin,
-  ymax,
-  quiet = FALSE
-)
+kde_filter(building, slope_raster, adjust = 1, n = 2048, quiet = FALSE)
+}
+\arguments{
+\item{building}{An object of the classes 'sf::sf' and 'data.frame' that was
+created using the workflow from the package 'rasterpolygonizer' that
+has one observation representing the interior polygon of one building.}
+
+\item{adjust}{The 'adjust' argument given to the 'density' function, or the
+adjustment to the smoothing bandwidth used for kernel density estimation.
+More detailed information can be found in the 'density'function
+documentation.}
+
+\item{n}{The 'n' argument given to the 'density' function, or the number of
+points at which the density is estimated when performing kernel density
+estimation. More information can be found in the 'density' function
+documentation.}
+
+\item{quiet}{Logical argument indicating whether summary messages should be
+printed.}
+
+\item{full_slope_raster}{A raster of the class 'terra::SpatRaster' that shows
+the slope value for each pixel, as calculated by the 'terra:terrain'
+function.}
+}
+\value{
+A 'terra::SpatRaster' object where the value of each pixel indicates
+the roof facet (if any) that it is a part of.
 }
 \description{
-Filter raster pixels using kernel density estimation
+Use kernel density estimation to estimate the distribution of the slope of
+rooftop pixels. Then only pixels in the primary distribution are kept to
+filter out the pixels that are most likely to contain facet
+edges. An additional processing step removes single pixel-wide bridges
+connecting multiple groups of valid pixels. At this point, the raster is
+divided into separate roof facets. A summary of the kernel density
+estimation results is printed as well.
 }

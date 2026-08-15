@@ -43,7 +43,7 @@
 #"       final roof facets}
 #' }
 #'
-#' @example
+#' @examples
 #' fs_results <- facet_separation(id = 165,
 #'                                buildings = smoothed_buildings,
 #'                                raster = corrected_raster,

@@ -3,7 +3,6 @@
 #' Perform the RANSAC algorithm to estimate the slope and aspect of multiple
 #'     roof facets from one building.
 #'
-#' @param facets
 building_ransac_results <- function(facets,
                                     raster,
                                     building_id,

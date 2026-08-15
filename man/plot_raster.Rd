@@ -4,7 +4,7 @@
 \alias{plot_raster}
 \title{Plot raster and buildings}
 \usage{
-plot_raster(raster, buildings, xmin, xmax, ymin, ymax, title = "")
+plot_raster(raster, building, title = "")
 }
 \arguments{
 \item{raster}{A raster to plot}

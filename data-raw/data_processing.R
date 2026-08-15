@@ -92,7 +92,7 @@ corrected_raster <- na_imputation(merged_raster_low_snow)
 # Find the raw buildings
 # ?
 
-# raw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
+raw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
 
 
 edges <- extract_building_edges_to_polygons(corrected_raster,
@@ -106,20 +106,19 @@ buildings_sf <- clean_building_polygons(
   max_area     = 3000
 )
 
-terra::crs(r)        <- "EPSG:32606"
-r_crs                <- terra::crs(r)
-terra::crs(r_filled) <- r_crs
+
 buildings_sf         <- sf::st_set_crs(buildings_sf,
                                        terra::crs(corrected_raster))
-b                    <- sf::st_set_crs(b, r_crs)
+raw_buildings        <- sf::st_set_crs(raw_buildings,
+                                       terra::crs(corrected_raster))
 
 filtered <- filter_by_ground_truth(
   buildings_sf,
-  b,
+  raw_buildings,
   threshold = 0.75
 )
 
-valid_polys <- remove_invalid_polys(filtered, r_filled, ground_tol = 1)
+valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
 
 
