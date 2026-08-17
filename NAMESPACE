@@ -2,6 +2,7 @@
 
 export(facet_separation)
 export(facet_snow_depth)
+export(load_raster)
 export(plot_facets_3d)
 export(plot_raster)
 import(rgl)
@@ -15,4 +16,5 @@ importFrom(terra,crop)
 importFrom(terra,extract)
 importFrom(terra,nrow)
 importFrom(terra,patches)
+importFrom(terra,rast)
 importFrom(terra,terrain)

@@ -40,6 +40,25 @@ fun_w_cutoff <- function(x, fun, cutoff) {
 }
 
 
+#' Load a raster from the 'facetseparater' package
+#'
+#' @importFrom terra rast
+#'
+#' @export
+load_raster <- function(raster_name) {
+  file_name <- paste0(raster_name, ".tif")
+  file_path <- system.file("extdata", file_name,
+                             package = "facetseparater")
+
+  if (file_path == "") {
+    stop(paste0("Raster file '", file_name, "' does not exist."))
+  }
+
+  terra::rast(file_path)
+}
+
+
+
 
 # plot_raster <- function(raster,
 #                         buildings,

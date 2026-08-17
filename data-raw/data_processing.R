@@ -81,11 +81,29 @@ snow_clip <- clamp(snow_depth, lower = 0, upper = 1,
 
 corrected_raster <- na_imputation(merged_raster_low_snow)
 
+save_raster(merged_raster_snow)
+
+merged_raster_snow <- terra::wrap(merged_raster_snow)
+merged_raster_low_snow <- terra::wrap(merged_raster_low_snow)
+snow_clip <- terra::wrap(snow_clip)
+corrected_raster <- terra::wrap(corrected_raster)
+
 usethis::use_data(merged_raster_snow, overwrite = TRUE)
 usethis::use_data(merged_raster_low_snow, overwrite = TRUE)
 usethis::use_data(snow_clip, overwrite = TRUE)
 usethis::use_data(corrected_raster, overwrite = TRUE)
 
+data(corrected_raster)
+
+merged_raster_snow <- terra::unwrap(merged_raster_snow)
+merged_raster_low_snow <- terra::unwrap(merged_raster_low_snow)
+snow_clip <- terra::unwrap(snow_clip)
+corrected_raster <- terra::unwrap(corrected_raster)
+
+# terra::writeRaster(merged_raster_snow, "inst/extdata/merged_raster_snow.tif", overwrite = TRUE)
+# terra::writeRaster(merged_raster_low_snow, "inst/extdata/merged_raster_low_snow.tif", overwrite = TRUE)
+# terra::writeRaster(snow_clip, "inst/extdata/snow_clip.tif", overwrite = TRUE)
+# terra::writeRaster(corrected_raster, "inst/extdata/corrected_raster.tif", overwrite = TRUE)
 
 
 # save all this stuff
@@ -99,8 +117,7 @@ usethis::use_data(corrected_raster, overwrite = TRUE)
 
 # Building stuff
 
-# Find the raw buildings
-# ?
+# I NEED TO FIND THE RAW BUILDINGS
 
 raw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
 
