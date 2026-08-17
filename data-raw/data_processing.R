@@ -1,6 +1,7 @@
 library(sf)
 library(terra)
 library(rasterpolygonizer)
+devtools::load_all(".")
 
 # 3/11/202
 tif_dir_snow <- "C:/Users/A02324772/Desktop/Snow Load Research Data/LIDAR/snow_rasters_0.5m"
@@ -80,6 +81,15 @@ snow_clip <- clamp(snow_depth, lower = 0, upper = 1,
 
 corrected_raster <- na_imputation(merged_raster_low_snow)
 
+usethis::use_data(merged_raster_snow, overwrite = TRUE)
+usethis::use_data(merged_raster_low_snow, overwrite = TRUE)
+usethis::use_data(snow_clip, overwrite = TRUE)
+usethis::use_data(corrected_raster, overwrite = TRUE)
+
+
+
+# save all this stuff
+
 
 # Interior building polygons
 # smoothed_buildings <- sf::read_sf(paste0("D:/Jashon/working/",
@@ -93,6 +103,10 @@ corrected_raster <- na_imputation(merged_raster_low_snow)
 # ?
 
 raw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
+
+
+
+
 
 
 edges <- extract_building_edges_to_polygons(corrected_raster,
