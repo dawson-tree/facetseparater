@@ -88,10 +88,10 @@ facet_separation <- function(id,
   full_slope_raster <- terra::terrain(raster,
                                  v = "slope",
                                  unit = "degrees")
-  # slope_raster <- crop(full_slope_raster, building, mask = TRUE)
+  slope_raster <- crop(full_slope_raster, building, mask = TRUE)
 
   facets <- kde_filter(building,
-                       full_slope_raster,
+                       slope_raster,
                        n = kde_n,
                        adjust = adjust,
                        quiet = quiet)

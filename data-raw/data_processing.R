@@ -72,14 +72,18 @@ merged_raster_low_snow <- app(stacked_low_snow, fun = function(x)
 #
 #
 #
-# merged_raster_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.rds")
-# merged_raster_low_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.rds")
+merged_raster_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.rds")
+merged_raster_low_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.rds")
 
 snow_depth <-  merged_raster_snow - merged_raster_low_snow
 snow_clip <- clamp(snow_depth, lower = 0, upper = 1,
                    values = FALSE)
 
 corrected_raster <- na_imputation(merged_raster_low_snow)
+
+saveRDS(merged_raster_snow, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.rds")
+
+corrected_raster <-
 
 save_raster(merged_raster_snow)
 
