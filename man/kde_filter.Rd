@@ -13,7 +13,7 @@ has one observation representing the interior polygon of one building.}
 
 \item{adjust}{The 'adjust' argument given to the 'density' function, or the
 adjustment to the smoothing bandwidth used for kernel density estimation.
-More detailed information can be found in the 'density'function
+More detailed information can be found in the 'density' function
 documentation.}
 
 \item{n}{The 'n' argument given to the 'density' function, or the number of

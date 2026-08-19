@@ -3,7 +3,7 @@ library(terra)
 library(rasterpolygonizer)
 devtools::load_all(".")
 
-# 3/11/202
+# 3/11/2023
 tif_dir_snow <- "C:/Users/A02324772/Desktop/Snow Load Research Data/LIDAR/snow_rasters_0.5m"
 
 # 10/24/2023
@@ -14,7 +14,6 @@ tif_files_snow <- list.files(tif_dir_snow, pattern = "\\.tif$",
                              full.names = TRUE)
 tif_files_low_snow <- list.files(tif_dir_low_snow, pattern = "\\.tif$",
                                  full.names = TRUE)
-
 
 rasters_snow <- lapply(tif_files_snow, rast)
 rasters_low_snow <- lapply(tif_files_low_snow, rast)
@@ -72,8 +71,8 @@ merged_raster_low_snow <- app(stacked_low_snow, fun = function(x)
 #
 #
 #
-merged_raster_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.rds")
-merged_raster_low_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.rds")
+# merged_raster_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.rds")
+# merged_raster_low_snow <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.rds")
 
 snow_depth <-  merged_raster_snow - merged_raster_low_snow
 snow_clip <- clamp(snow_depth, lower = 0, upper = 1,
@@ -81,51 +80,16 @@ snow_clip <- clamp(snow_depth, lower = 0, upper = 1,
 
 corrected_raster <- na_imputation(merged_raster_low_snow)
 
-saveRDS(merged_raster_snow, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.rds")
-
-corrected_raster <-
-
-save_raster(merged_raster_snow)
-
-merged_raster_snow <- terra::wrap(merged_raster_snow)
-merged_raster_low_snow <- terra::wrap(merged_raster_low_snow)
-snow_clip <- terra::wrap(snow_clip)
-corrected_raster <- terra::wrap(corrected_raster)
-
-usethis::use_data(merged_raster_snow, overwrite = TRUE)
-usethis::use_data(merged_raster_low_snow, overwrite = TRUE)
-usethis::use_data(snow_clip, overwrite = TRUE)
-usethis::use_data(corrected_raster, overwrite = TRUE)
-
-data(corrected_raster)
-
-merged_raster_snow <- terra::unwrap(merged_raster_snow)
-merged_raster_low_snow <- terra::unwrap(merged_raster_low_snow)
-snow_clip <- terra::unwrap(snow_clip)
-corrected_raster <- terra::unwrap(corrected_raster)
-
-# terra::writeRaster(merged_raster_snow, "inst/extdata/merged_raster_snow.tif", overwrite = TRUE)
-# terra::writeRaster(merged_raster_low_snow, "inst/extdata/merged_raster_low_snow.tif", overwrite = TRUE)
-# terra::writeRaster(snow_clip, "inst/extdata/snow_clip.tif", overwrite = TRUE)
-# terra::writeRaster(corrected_raster, "inst/extdata/corrected_raster.tif", overwrite = TRUE)
+terra::writeRaster(merged_raster_snow, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.tif", overwrite = TRUE)
+terra::writeRaster(merged_raster_low_snow, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.tif", overwrite = TRUE)
+terra::writeRaster(snow_clip, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/snow_clip.tif", overwrite = TRUE)
+terra::writeRaster(corrected_raster, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif", overwrite = TRUE)
 
 
-# save all this stuff
+raw_buildings <- read_sf("D:/Jashon/fairbanks_osm/fairbanks_arcgis-selected/fairbanks_all.shp")
 
-
-# Interior building polygons
-# smoothed_buildings <- sf::read_sf(paste0("D:/Jashon/working/",
-#                                          "Interior_Built_Polys_FBanks.shp"))
-# smoothed_buildings <- st_transform(smoothed_buildings,
-#                                    crs(merged_raster_snow))
-
-# Building stuff
-
-# I NEED TO FIND THE RAW BUILDINGS
-
-raw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
-
-
+raw_buildings <- sf::st_transform(raw_buildings,
+                                         terra::crs(corrected_raster))
 
 
 
@@ -142,10 +106,9 @@ buildings_sf <- clean_building_polygons(
 )
 
 
-buildings_sf         <- sf::st_set_crs(buildings_sf,
-                                       terra::crs(corrected_raster))
-raw_buildings        <- sf::st_transform(raw_buildings,
-                                       terra::crs(corrected_raster))
+buildings_sf <- sf::st_transform(buildings_sf,
+                                         terra::crs(corrected_raster))
+
 
 filtered <- filter_by_ground_truth(
   buildings_sf,
@@ -157,16 +120,9 @@ valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
 
 
-aw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
 
-for (i in head(raw_buildings, n = 9)$building_id) {
-  plot_raster(corrected_raster,
-              filter(raw_buildings,
-                     building_id == i))
-}
-
-plot_raster(corrected_raster,
-            filter(raw_buildings,
-                   building_id == 1))
-}
-
+# plot_raster(corrected_raster,
+#             filter(raw_buildings,
+#                    OBJECTID == 8770))
+# plot(corrected_raster)
+# plot(st_geometry(raw_buildings), add = TRUE, col = "red")

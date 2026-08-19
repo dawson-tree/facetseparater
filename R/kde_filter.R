@@ -16,7 +16,7 @@
 #'     function.
 #' @param adjust The 'adjust' argument given to the 'density' function, or the
 #'     adjustment to the smoothing bandwidth used for kernel density estimation.
-#'     More detailed information can be found in the 'density'function
+#'     More detailed information can be found in the 'density' function
 #'     documentation.
 #' @param n The 'n' argument given to the 'density' function, or the number of
 #'     points at which the density is estimated when performing kernel density
