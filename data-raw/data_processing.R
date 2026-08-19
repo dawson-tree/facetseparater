@@ -144,7 +144,7 @@ buildings_sf <- clean_building_polygons(
 
 buildings_sf         <- sf::st_set_crs(buildings_sf,
                                        terra::crs(corrected_raster))
-raw_buildings        <- sf::st_set_crs(raw_buildings,
+raw_buildings        <- sf::st_transform(raw_buildings,
                                        terra::crs(corrected_raster))
 
 filtered <- filter_by_ground_truth(
@@ -157,6 +157,16 @@ valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
 
 
+aw_buildings <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
 
+for (i in head(raw_buildings, n = 9)$building_id) {
+  plot_raster(corrected_raster,
+              filter(raw_buildings,
+                     building_id == i))
+}
 
+plot_raster(corrected_raster,
+            filter(raw_buildings,
+                   building_id == 1))
+}
 

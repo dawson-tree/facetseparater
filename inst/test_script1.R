@@ -124,6 +124,4 @@ fs_results <- facet_separation(217,
                                corrected_raster,
                                plot3d = FALSE)
 
-corrected_raster_new <- na_imputation(merged_raster_low_snow)
 
-corrected_raster_new2 <- na_imputation2(merged_raster_low_snow)
