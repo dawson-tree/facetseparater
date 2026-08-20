@@ -96,6 +96,7 @@ facet_separation <- function(id,
                        adjust = adjust,
                        quiet = quiet)
 
+  # Should this be part of kde_filter?
   facet_polys <- as.polygons(facets, aggregate = TRUE, na.rm = TRUE)
 
 
