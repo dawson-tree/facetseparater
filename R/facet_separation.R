@@ -66,7 +66,8 @@
 #'                                corrected_raster)
 #'
 #' @importFrom dplyr filter
-#' @importFrom terra terrain
+#' @importFrom terra terrain crop res
+#' @importFrom sf st_buffer
 #'
 #' @export
 facet_separation <- function(id,
@@ -84,11 +85,17 @@ facet_separation <- function(id,
   set.seed(seed)
 
   building <- dplyr::filter(buildings, building_id == id)
+  raster_res <- max(terra::res(raster))
+  # buffer_dist <-
+  # building_buffer <- sf::st_buffer(building, dist = raster_res)
+  building_buffer <- sf::st_buffer(building, dist = 2*raster_res)
+  building_raster <- terra::crop(raster, building_buffer, mask = TRUE)
 
-  full_slope_raster <- terra::terrain(raster,
-                                      v = "slope",
-                                      unit = "degrees")
-  slope_raster <- crop(full_slope_raster, building, mask = TRUE)
+  slope_raster <- terra::terrain(building_raster,
+                                 v = "slope",
+                                 unit = "degrees") |>
+    crop(building, mask = TRUE)
+
 
   facet_polys <- kde_filter(building,
                             slope_raster,
