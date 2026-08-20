@@ -118,11 +118,40 @@ filtered <- filter_by_ground_truth(
 
 valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
+# saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_defaults.rds")
 
 
 
-# plot_raster(corrected_raster,
-#             filter(raw_buildings,
-#                    OBJECTID == 8770))
+
+
+corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+merged_raster_low_snow <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.tif")
+corrected_raster15 <- rast("D:/Dawson/SnowData/corrected_raster_lowsnow_halfmeter.tif")
+valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_defaults.rds")
+
+
+
+plot_raster(corrected_raster,
+            filter(valid_polys,
+                   building_id == 6))
+plot(st_geometry(raw_buildings), add = TRUE)
 # plot(corrected_raster)
 # plot(st_geometry(raw_buildings), add = TRUE, col = "red")
+
+
+
+
+
+plot_raster(corrected_raster15,
+            filter(valid_polys,
+                   building_id == 6))
+plot(st_geometry(raw_buildings), add = TRUE)
+
+plot_raster(merged_raster_low_snow,
+            filter(valid_polys,
+                   building_id == 6))
+plot(st_geometry(raw_buildings), add = TRUE)
+
+
+
+
