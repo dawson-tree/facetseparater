@@ -88,6 +88,7 @@ kde_filter <- function(building,
 
   }
 
-  patch_slope_raster
+  facet_polys <- as.polygons(patch_slope_raster, aggregate = TRUE, na.rm = TRUE)
+  facet_polys
 }
 

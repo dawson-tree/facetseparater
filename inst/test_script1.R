@@ -66,6 +66,9 @@ smoothed_buildings <- st_read("D:/Jashon/working/Interior_Built_Polys_FBanks.shp
 corrected_raster <- readRDS("C:/Users/dtree/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.rds")
 smoothed_buildings <- st_read("C:/Users/dtree/Box/Snow Load Research Stuff/DataFromJashon/working/Interior_Built_Polys_FBanks.shp")
 
+corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+smoothed_buildings <- st_read("D:/Jashon/working/Interior_Built_Polys_FBanks.shp")
+
 smoothed_buildings$building_id <- smoothed_buildings$bldng_d
 smoothed_buildings$object_id <- smoothed_buildings$OBJECTI
 smoothed_buildings <- st_transform(smoothed_buildings, crs(corrected_raster)) |>

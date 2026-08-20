@@ -86,30 +86,26 @@ facet_separation <- function(id,
   building <- dplyr::filter(buildings, building_id == id)
 
   full_slope_raster <- terra::terrain(raster,
-                                 v = "slope",
-                                 unit = "degrees")
+                                      v = "slope",
+                                      unit = "degrees")
   slope_raster <- crop(full_slope_raster, building, mask = TRUE)
 
-  facets <- kde_filter(building,
-                       slope_raster,
-                       n = kde_n,
-                       adjust = adjust,
-                       quiet = quiet)
-
-  # Should this be part of kde_filter?
-  facet_polys <- as.polygons(facets, aggregate = TRUE, na.rm = TRUE)
-
+  facet_polys <- kde_filter(building,
+                            slope_raster,
+                            n = kde_n,
+                            adjust = adjust,
+                            quiet = quiet)
 
   building_results <- building_ransac_results(facet_polys,
-                                         raster,
-                                         building_id = id,
-                                         n = n,
-                                         min_inliers = min_inliers,
-                                         quiet = quiet)
+                                              raster,
+                                              building_id = id,
+                                              n = n,
+                                              min_inliers = min_inliers,
+                                              quiet = quiet)
 
   if (plot) {
     raster_title = paste0("Corrected Raster - Building ",
-                         building$building_id)
+                          building$building_id)
     plot_raster(raster,
                 building,
                 title = raster_title)
@@ -121,7 +117,6 @@ facet_separation <- function(id,
     plot_raster(slope_raster,
                 building,
                 title = slope_title)
-
 
     title = paste0("Final Facets after RANSAC Algorithm - Building ",
                    building$building_id)
