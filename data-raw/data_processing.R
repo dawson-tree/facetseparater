@@ -91,7 +91,11 @@ raw_buildings <- read_sf("D:/Jashon/fairbanks_osm/fairbanks_arcgis-selected/fair
 raw_buildings <- sf::st_transform(raw_buildings,
                                          terra::crs(corrected_raster))
 
+# 1. Get the extent of the raster as an sf polygon
+raster_extent_sf <- st_as_sfc(st_bbox(merged_raster_snow))
 
+# 2. Trim/Crop the sf object
+trimmed_sf <- st_intersection(raw_buildings, raster_extent_sf)
 
 
 edges <- extract_building_edges_to_polygons(corrected_raster,
@@ -126,6 +130,7 @@ valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
 corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
 merged_raster_low_snow <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.tif")
+merged_raster_snow <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.tif")
 corrected_raster15 <- rast("D:/Dawson/SnowData/corrected_raster_lowsnow_halfmeter.tif")
 valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_defaults.rds")
 
@@ -154,4 +159,22 @@ plot(st_geometry(raw_buildings), add = TRUE)
 
 
 
+cropped_raster <- terra::crop(corrected_raster,
+                              ext(464175, 464210,
+                                  7193030, 7193070))
 
+plot(cropped_raster,
+     xlim = c(464175, 464210),
+     ylim = c(7193030, 7193070))
+lines(raw_buildings, col = "red", lwd = 2)
+
+#
+
+cropped_raster <- terra::crop(corrected_raster,
+                              ext(464175, 464210,
+                                  7193030, 7193070))
+
+plot(cropped_raster,
+     xlim = c(464175, 464210),
+     ylim = c(7193030, 7193070))
+lines(valid_polys, col = "red", lwd = 2)
