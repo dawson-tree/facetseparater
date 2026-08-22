@@ -2,6 +2,16 @@
 #'
 #' Perform the RANSAC algorithm to estimate the slope and aspect of multiple
 #'     roof facets from one building.
+#' @param facets A 'terra::SpatRaster' object that represents the various facets
+#'     on a building rooftop. This type of object is the output of the
+#'     'kde_filter' function.
+#' @param raster An elevation raster of the class 'terra::SpatRaster'.
+#' @param building_id The 'building_id' for the specific building rooftop to be
+#'     analyzed.
+#'
+#'
+#'
+#'
 #'
 building_ransac_results <- function(facets,
                                     raster,

@@ -2,8 +2,11 @@
 #'
 #' Plot a raster and building polygons within a specified extent.
 #'
-#' @param raster A raster to plot
-#'
+#' @param raster A 'terra::SpatRaster' object to be plotted
+#' @param building A building in the form of an 'sf' object with one observation
+#'     to be plotted. This argument also defines the area of the raster that
+#'     will be plotted.
+#' @param title The title of the plot.
 #'
 #' @importFrom terra crop
 #'

@@ -134,6 +134,12 @@ merged_raster_snow <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data
 corrected_raster15 <- rast("D:/Dawson/SnowData/corrected_raster_lowsnow_halfmeter.tif")
 valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_defaults.rds")
 
+corrected_raster <- rast("C:/Users/dtree/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+merged_raster_low_snow <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_low_snow_halfm.tif")
+merged_raster_snow <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/merged_raster_snow_halfm.tif")
+corrected_raster15 <- rast("D:/Dawson/SnowData/corrected_raster_lowsnow_halfmeter.tif")
+valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_defaults.rds")
+
 
 
 plot_raster(corrected_raster,
@@ -178,3 +184,30 @@ plot(cropped_raster,
      xlim = c(464175, 464210),
      ylim = c(7193030, 7193070))
 lines(valid_polys, col = "red", lwd = 2)
+
+
+
+
+
+# 1. Get the extent of the raster as an sf polygon
+raster_extent_sf <- st_as_sfc(st_bbox(corrected_raster_old))
+
+# 2. Trim/Crop the sf object
+trimmed_sf <- st_crop(osm, raster_extent_sf)
+
+
+
+
+osm <- read_sf("D:/Jashon/fairbanks_osm/fairbanks_arcgis-selected/fairbanks_all.shp")
+osm <- sf::st_transform(osm ,
+                         terra::crs(corrected_raster))
+
+osm
+
+fnsb <- read_sf("D:/Jashon/working/Fairbanks_fnsbref_polys.gpkg")
+fnsb <- sf::st_transform(osm ,
+                         terra::crs(corrected_raster))
+
+corrected_raster_old <- rast("D:/Jashon/working/corrected_raster15p.tif")
+corrected_raster_old <- project(corrected_raster_old, corrected_raster)
+
