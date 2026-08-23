@@ -8,6 +8,7 @@
 #' @param raster An elevation raster of the class 'terra::SpatRaster'.
 #' @param building_id The 'building_id' for the specific building rooftop to be
 #'     analyzed.
+#' @param n
 #'
 #'
 #'
@@ -16,7 +17,7 @@
 building_ransac_results <- function(facets,
                                     raster,
                                     building_id,
-                                    n = 100L,
+                                    n = 500L,
                                     min_inliers = 10L,
                                     quiet = FALSE) {
 
