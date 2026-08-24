@@ -4,12 +4,12 @@
 #' @importFrom stats coef
 #'
 roof_facet_slope_ransac <- function(raster,
-                                  facets,
-                                  building_id,
-                                  n_iter = 500L,
-                                  thresh = 0.1,
-                                  min_inliers = 10L,
-                                  quiet = FALSE) {
+                                    facets,
+                                    building_id,
+                                    n_iter = 500L,
+                                    thresh = 0.1,
+                                    min_inliers = 10L,
+                                    quiet = FALSE) {
 
   # --- Input validation ---
   if (!inherits(raster, "SpatRaster")) {
@@ -97,7 +97,7 @@ roof_facet_slope_ransac <- function(raster,
     }
 
     if (is.null(best_plane)) {
-      if (!quiet) message("Building ", id, ": no valid plane found.")
+      if (!quiet) message("Facet ", id, ": no valid plane found.")
       next
     }
 

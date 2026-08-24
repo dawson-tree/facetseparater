@@ -8,10 +8,36 @@ building_ransac_results(
   facets,
   raster,
   building_id,
-  n = 100L,
+  n = 500L,
   min_inliers = 10L,
   quiet = FALSE
 )
+}
+\arguments{
+\item{facets}{A 'terra::SpatRaster' object that represents the various facets
+on a building rooftop. This type of object is the output of the
+'kde_filter' function.}
+
+\item{raster}{An elevation raster of the class 'terra::SpatRaster'.}
+
+\item{building_id}{The 'building_id' for the specific building rooftop to be
+analyzed.}
+
+\item{n}{Number of RANSAC iterations for each facet}
+
+\item{min_inliers}{Minimum number of inliers required to accept a plane.}
+
+\item{quiet}{Logical argument indicating whether progress messages should be
+printed.}
+}
+\value{
+A list containing the following:
+\describe{
+\item{results_list}{A list of lists with detailed results for each roof
+facet.}
+\item{summary_table}{Data frame summarizing slope, aspect, snow depth,
+\item{facet_polys}{A terra::SpatVector of polygons representing each of the
+}
 }
 \description{
 Perform the RANSAC algorithm to estimate the slope and aspect of multiple

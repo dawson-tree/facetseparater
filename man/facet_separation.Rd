@@ -11,7 +11,7 @@ facet_separation(
   seed = 1234,
   adjust = 1,
   kde_n = 2048,
-  n = 500L,
+  ransac_n = 500L,
   min_inliers = 10L,
   quiet = FALSE,
   plot = TRUE,
@@ -38,16 +38,16 @@ function documentation.}
 density estimation. More information can be found in the 'density'
 function documentation.}
 
-\item{n}{Number of RANSAC iterations. More information can be found in the
-'kde_roof_slope_RANSAC' function documentation.}
+\item{ransac_n}{Number of RANSAC iterations. More information can be found in
+the 'building_ransac_results' function documentation.}
 
 \item{min_inliers}{Minimum number of inliers required to accept a plane. More
-information can be found in the 'kde_roof_slope_RANSAC' function
+information can be found in the 'building_ransac_results' function
 documentation.}
 
 \item{quiet}{Logical argument indicating whether summary messages from
-'kde_filter' and progress messages from 'kde_roof_slope_RANSAC' should be
-printed.}
+'kde_filter' and progress messages from 'building_ransac_results' should
+be printed.}
 
 \item{plot}{Logical argument indicating whether graphics showing building
 elevation, building slope, and the final separated facets should be

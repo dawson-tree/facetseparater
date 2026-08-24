@@ -7,7 +7,13 @@
 plot_raster(raster, building, title = "")
 }
 \arguments{
-\item{raster}{A raster to plot}
+\item{raster}{A 'terra::SpatRaster' object to be plotted}
+
+\item{building}{A building in the form of an 'sf' object with one observation
+to be plotted. This argument also defines the area of the raster that
+will be plotted.}
+
+\item{title}{The title of the plot.}
 }
 \description{
 Plot a raster and building polygons within a specified extent.
