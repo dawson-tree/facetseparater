@@ -43,6 +43,16 @@ building_ransac_results <- function(facets,
                                      )
                                    })
 
+  total_building_results <- roof_facet_slope_ransac(
+                                       raster      = raster,
+                                       facets      = facets,
+                                       building_id = building_id,
+                                       n_iter      = n,
+                                       thresh      = 0.1,
+                                       min_inliers = min_inliers,
+                                       quiet = quiet
+                                     )
+
   building_results <- total_building_results[['patches']]
 
   names(building_results[['results_list']]) <-

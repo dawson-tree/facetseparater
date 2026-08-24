@@ -1,5 +1,3 @@
-# Maybe switch to facet_roof_slope_RANSAC
-
 #' @importFrom terra nrow
 #' @importFrom stats coef
 #'
