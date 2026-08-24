@@ -19,11 +19,11 @@
 #' @param kde_n The 'n' argument given to the 'density' function used for kernel
 #'     density estimation. More information can be found in the 'density'
 #'     function documentation.
-#' @param ransac_n Number of RANSAC iterations. More information can be found in
-#'     the 'building_ransac_results' function documentation.
-#' @param min_inliers Minimum number of inliers required to accept a plane. More
-#'     information can be found in the 'building_ransac_results' function
-#'     documentation.
+#' @param ransac_n Number of RANSAC iterations for each facet.
+#' @param threshold Residual threshold for RANSAC inlier classification in
+#'     meters.
+#' @param min_inliers Minimum number of inliers required to accept a plane
+#'     generated using RANSAC.
 #' @param quiet Logical argument indicating whether summary messages from
 #'     'kde_filter' and progress messages from 'building_ransac_results' should
 #'     be printed.
@@ -77,6 +77,7 @@ facet_separation <- function(id,
                              adjust = 1,
                              kde_n = 2048,
                              ransac_n = 500L,
+                             threshold = 0.1,
                              min_inliers = 10L,
                              quiet = FALSE,
                              plot = TRUE,
@@ -106,7 +107,8 @@ facet_separation <- function(id,
   building_results <- building_ransac_results(facet_polys,
                                               raster,
                                               building_id = id,
-                                              n = ransac_n,
+                                              n_iter = ransac_n,
+                                              thresh = threshold,
                                               min_inliers = min_inliers,
                                               quiet = quiet)
 

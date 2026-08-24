@@ -85,9 +85,10 @@ fs_results <- facet_separation(id = 165,
                                kde_n = 2048,
                                ransac_n = 500L,
                                min_inliers = 10L,
+                               threshold = 0.1,
                                quiet = FALSE,
                                plot = TRUE,
-                               plot3d = TRUE)
+                               plot3d = FALSE)
 
 
 

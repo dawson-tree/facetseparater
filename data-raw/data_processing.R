@@ -322,26 +322,60 @@ edges0.7 <- extract_building_edges_to_polygons(corrected_raster,
                                             thr_prob = 0.7)
 
 # Zoom in and look at part of edges$closed_edges
-nhood <- terra::crop(edges0.7$closed_edges,
+nhood0.7 <- terra::crop(edges0.7$closed_edges,
                      ext(464100, 464300,
                          7192950, 7193150))
 
-plot(nhood)
+plot(nhood0.7)
 
-nhood2 <- terra::crop(edges0.7$closed_edges,
+nhood2.0.7 <- terra::crop(edges0.7$closed_edges,
                       ext(468250, 468450,
                           7193550, 7193750))
 
-plot(nhood2)
+plot(nhood2.0.7)
 
-bigbldngs <- terra::crop(edges0.7$closed_edges,
+bigbldngs0.7 <- terra::crop(edges0.7$closed_edges,
                          ext(465850, 466150,
                              7193100, 7193300))
 
-plot(bigbldngs)
+plot(bigbldngs0.7)
+
+################################
+
+buildings_sf <- clean_building_polygons(
+  closed_edges = bigbldngs,
+  shrink_dist  = -0.5,
+  simplify_tol = 0.5,
+  min_area     = 19.99,
+  max_area     = 3000
+)
+
+plot(st_geometry(buildings_sf))
+
+buildings_sf0.7 <- clean_building_polygons(
+  closed_edges = bigbldngs0.7,
+  shrink_dist  = -0.5,
+  simplify_tol = 0.5,
+  min_area     = 19.99,
+  max_area     = 3000
+)
+
+plot(st_geometry(buildings_sf0.7))
+
+#################################### Actual final results (0.75)
+
+corrected_raster_test <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+
+raw_buildings <- read_sf("D:/Jashon/fairbanks_osm/fairbanks_arcgis-selected/fairbanks_all.shp")
+
+raw_buildings <- sf::st_transform(raw_buildings,
+                                  terra::crs(corrected_raster))
 
 
+edges <- extract_building_edges_to_polygons(corrected_raster,
+                                            thr_prob = 0.75)
 
+saveRDS(edges, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/edges_75.rds")
 
 buildings_sf <- clean_building_polygons(
   closed_edges = edges$closed_edges,
@@ -351,9 +385,10 @@ buildings_sf <- clean_building_polygons(
   max_area     = 3000
 )
 
-
 buildings_sf <- sf::st_transform(buildings_sf,
                                  terra::crs(corrected_raster))
+
+saveRDS(buildings_sf, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/buildings_sf_75.rds")
 
 
 filtered <- filter_by_ground_truth(
@@ -362,7 +397,55 @@ filtered <- filter_by_ground_truth(
   threshold = 0.75
 )
 
+saveRDS(filtered, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/filtered_75.rds")
+
 valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
-# saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_defaults.rds")
+saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_75.rds")
+
+
+
+
+
+
+#################################### Actual final results (0.7)
+
+corrected_raster_test <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+
+raw_buildings <- read_sf("D:/Jashon/fairbanks_osm/fairbanks_arcgis-selected/fairbanks_all.shp")
+
+raw_buildings <- sf::st_transform(raw_buildings,
+                                  terra::crs(corrected_raster))
+
+
+edges <- extract_building_edges_to_polygons(corrected_raster,
+                                            thr_prob = 0.7)
+
+saveRDS(edges, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/edges_70.rds")
+
+buildings_sf <- clean_building_polygons(
+  closed_edges = edges$closed_edges,
+  shrink_dist  = -0.5,
+  simplify_tol = 0.5,
+  min_area     = 19.99,
+  max_area     = 3000
+)
+
+buildings_sf <- sf::st_transform(buildings_sf,
+                                 terra::crs(corrected_raster))
+
+saveRDS(buildings_sf, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/buildings_sf_70.rds")
+
+
+filtered <- filter_by_ground_truth(
+  buildings_sf,
+  raw_buildings,
+  threshold = 0.75
+)
+
+saveRDS(filtered, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/filtered_70.rds")
+
+valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
+
+saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
 

@@ -8,7 +8,8 @@ building_ransac_results(
   facets,
   raster,
   building_id,
-  n = 500L,
+  n_iter = 500L,
+  thresh = 0.1,
   min_inliers = 10L,
   quiet = FALSE
 )
@@ -23,7 +24,9 @@ on a building rooftop. This type of object is the output of the
 \item{building_id}{The 'building_id' for the specific building rooftop to be
 analyzed.}
 
-\item{n}{Number of RANSAC iterations for each facet}
+\item{n_iter}{Number of RANSAC iterations for each facet.}
+
+\item{thresh}{Residual threshold for inlier classification in meters.}
 
 \item{min_inliers}{Minimum number of inliers required to accept a plane.}
 

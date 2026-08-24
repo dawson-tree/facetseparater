@@ -12,6 +12,7 @@ facet_separation(
   adjust = 1,
   kde_n = 2048,
   ransac_n = 500L,
+  threshold = 0.1,
   min_inliers = 10L,
   quiet = FALSE,
   plot = TRUE,
@@ -38,12 +39,13 @@ function documentation.}
 density estimation. More information can be found in the 'density'
 function documentation.}
 
-\item{ransac_n}{Number of RANSAC iterations. More information can be found in
-the 'building_ransac_results' function documentation.}
+\item{ransac_n}{Number of RANSAC iterations for each facet.}
 
-\item{min_inliers}{Minimum number of inliers required to accept a plane. More
-information can be found in the 'building_ransac_results' function
-documentation.}
+\item{threshold}{Residual threshold for RANSAC inlier classification in
+meters.}
+
+\item{min_inliers}{Minimum number of inliers required to accept a plane
+generated using RANSAC.}
 
 \item{quiet}{Logical argument indicating whether summary messages from
 'kde_filter' and progress messages from 'building_ransac_results' should
