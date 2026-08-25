@@ -363,6 +363,10 @@ buildings_sf0.7 <- clean_building_polygons(
 plot(st_geometry(buildings_sf0.7))
 
 #################################### Actual final results (0.75)
+library(sf)
+library(terra)
+library(rasterpolygonizer)
+devtools::load_all(".")
 
 corrected_raster_test <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
 
@@ -409,8 +413,12 @@ saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowD
 
 
 #################################### Actual final results (0.7)
+library(sf)
+library(terra)
+library(rasterpolygonizer)
+devtools::load_all(".")
 
-corrected_raster_test <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
 
 raw_buildings <- read_sf("D:/Jashon/fairbanks_osm/fairbanks_arcgis-selected/fairbanks_all.shp")
 
