@@ -4,14 +4,14 @@
 #'
 #' @export
 plot_facets_3d <- function(results_obj,
-                                         raster,
-                                         building,
-                                         thresh = 0.1,
-                                         grid_res = 30,
-                                         snapshot = FALSE,
-                                         snapshot_file = "building_plot.png",
-                                         save_html = FALSE,
-                                         html_file = "building_plot.html") {
+                           raster,
+                           building,
+                           thresh = 0.1,
+                           grid_res = 30,
+                           snapshot = FALSE,
+                           snapshot_file = "building_plot.png",
+                           save_html = FALSE,
+                           html_file = "building_plot.html") {
   building <- terra::vect(building)
 
   for (facet in results_obj$results_list) {
