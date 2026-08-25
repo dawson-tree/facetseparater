@@ -457,3 +457,141 @@ valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
 saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
 
+################################################################################
+
+
+nhood0.7 <- terra::crop(corrected_raster,
+                        ext(464100, 464300,
+                            7192950, 7193150))
+
+plot(nhood0.7)
+lines(valid_polys, col="red")
+
+nhood2.0.7 <- terra::crop(corrected_raster,
+                          ext(468250, 468450,
+                              7193550, 7193750))
+
+plot(nhood2.0.7)
+lines(valid_polys, col="red")
+
+bigbldngs0.7 <- terra::crop(corrected_raster,
+                            ext(465850, 466150,
+                                7193100, 7193300))
+
+plot(bigbldngs0.7)
+lines(valid_polys, col="red")
+
+
+plot(corrected_raster)
+lines(valid_polys, col="red")
+
+nhood3.0.7 <- terra::crop(corrected_raster,
+                          ext(468800, 469100,
+                              7194800, 7195100))
+
+plot(nhood3.0.7)
+lines(valid_polys, col="red")
+
+
+cr_167 <- terra::crop(corrected_raster,
+                      ext(464165, 464180,
+                          7193050, 7193070))
+
+plot(cr_167)
+lines(valid_polys, col="red")
+
+
+
+plot_raster_area <- function(raster,
+                             buildings,
+                             xmin, xmax,
+                             ymin, ymax,
+                             title = "") {
+
+  cropped_raster <- terra::crop(raster, ext(xmin, xmax, ymin, ymax))
+
+  plot(cropped_raster,
+       xlim = c(xmin, xmax),
+       ylim = c(ymin, ymax),
+       main = title)
+  lines(buildings, col = "red", lwd = 2)
+  text(buildings,
+       labels = buildings$building_id,
+       cex = 1.5,
+       font = 2)
+}
+par(mfrow = c(3,5))
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464175, 464205,
+#                  7193030, 7193070)
+facet_separation(5895,
+                 valid_polys,
+                 corrected_raster)
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  466000, 466035,
+#                  7193040, 7193140)
+facet_separation(25191,
+                 valid_polys,
+                 corrected_raster)
+
+# erode messes this one up
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464165, 464180,
+#                  7193050, 7193070)
+facet_separation(4629,
+                 valid_polys,
+                 corrected_raster)
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464150, 464170,
+#                  7193050, 7193080)
+facet_separation(4630,
+                 valid_polys,
+                 corrected_raster)
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  468445, 468470,
+#                  7193450, 7193470)
+facet_separation(116950,
+                 valid_polys,
+                 corrected_raster)
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464310, 464325,
+#                  7192930, 7192955)
+facet_separation(7721,
+                 valid_polys,
+                 corrected_raster)
+
+# erode is not working
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464015, 464040,
+#                  7193205, 7193230)
+facet_separation(1853,
+                 valid_polys,
+                 corrected_raster)
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464935, 464960,
+#                  7192870, 7192895)
+facet_separation(15197,
+                 valid_polys,
+                 corrected_raster)
+
+# plot_raster_area(corrected_raster,
+#                  valid_polys,
+#                  464165, 464180,
+#                  7193230, 7193255)
+facet_separation(4648,
+                 valid_polys,
+                 corrected_raster)

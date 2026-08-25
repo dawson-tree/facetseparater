@@ -75,7 +75,7 @@ kde_filter <- function(building,
 
   eroded_slope_raster <- erode(clamped_slope_raster)
 
-  patch_slope_raster <- terra::patches(eroded_slope_raster, directions = 4) # ????
+  patch_slope_raster <- terra::patches(eroded_slope_raster, directions = 4)
 
   if (!quiet) {
 
