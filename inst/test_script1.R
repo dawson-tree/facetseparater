@@ -55,6 +55,7 @@ fs_results <- facet_separation(id = 165,
                                kde_n = kde_n_var,
                                n = 100L,
                                min_inliers = 10L,
+                               threshold = 0.1,
                                quiet = FALSE,
                                quiet3d = TRUE)
 
