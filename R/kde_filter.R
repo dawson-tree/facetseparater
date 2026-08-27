@@ -71,17 +71,19 @@ kde_filter <- function(building,
   clamped_slope_raster <- clamp(slope_raster,
                                 lower = lower_cutoff, upper = upper_cutoff, values = FALSE)
 
-  plot_raster(clamped_slope_raster,
-              building,
-              title = "Clamped Raster")
+  # For debugging
+  # plot_raster(clamped_slope_raster,
+  #             building,
+  #             title = "Clamped Raster")
 
   # Erosion function
 
   eroded_slope_raster <- erode(clamped_slope_raster)
 
-  plot_raster(eroded_slope_raster,
-              building,
-              title = "Eroded Raster")
+  # For debugging
+  # plot_raster(eroded_slope_raster,
+  #             building,
+  #             title = "Eroded Raster")
 
   patch_slope_raster <- terra::patches(eroded_slope_raster, directions = 4)
 

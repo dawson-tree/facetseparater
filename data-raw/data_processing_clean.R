@@ -125,3 +125,86 @@ saveRDS(filtered, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData
 valid_polys <- remove_invalid_polys(filtered, corrected_raster, ground_tol = 1)
 
 saveRDS(valid_polys, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
+
+
+################# Facet Snow Summary ###########################################
+library(terra)
+library(dplyr)
+devtools::load_all(".")
+
+corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
+snow_clip <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/snow_clip.tif")
+
+
+all_facet_results <- lapply(valid_polys$building_id,
+                            function(x) {
+                              fs_results <- facet_separation(x,
+                                                             valid_polys,
+                                                             corrected_raster,
+                                                             quiet = TRUE,
+                                                             plot = FALSE,
+                                                             plot3d = FALSE)
+                              fs_results
+                            })
+
+saveRDS(all_facet_results, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_facet_results_halfm.rds")
+
+
+all_summary_results_0.8 <- lapply(all_facet_results,
+                                  function(fs_results) {
+                                    tryCatch({
+                                      snow_depths <- facet_snow_summary(fs_results,
+                                                                        snow_clip,
+                                                                        cutoff = 0.8)
+                                      return(snow_depths)
+                                    }, error = function(e) {
+                                      # message("Error processing a facet: ", e$message)
+                                      return(NULL)
+                                    })
+                                  }) |>
+  bind_rows()
+
+
+(length(all_summary_results_0.8$snow_depth) -
+    sum(is.na(all_summary_results_0.8$snow_depth))) / length(all_summary_results_0.8$snow_depth)
+
+saveRDS(all_summary_results_0.8, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_summary_results_halfm_80.rds")
+
+#######################
+
+all_results_copy <- all_results_copy |>
+  filter(slope_deg > 4.76) |>
+  mutate(aspect_direction = case_when(
+    aspect_deg < 45 | aspect_deg > 315 ~ "North",
+    aspect_deg > 45 & aspect_deg < 135 ~ "East",
+    aspect_deg > 135 & aspect_deg < 225 ~ "South",
+    aspect_deg > 225 & aspect_deg < 315 ~ "West"
+  ))
+
+
+ggplot(data = all_results_copy,
+       aes(x = aspect_direction, y = snow_depth, fill = aspect_direction)) +
+  geom_boxplot() +
+  labs(
+    title = "Snow Depth by Roof Aspect Direction",
+    x = "Roof Aspect Direction",
+    y = "Snow Depth (m)",
+    fill = "Roof Aspect Direction"
+  ) +
+  theme_minimal()
+
+ggplot(data = all_summary_results_0.8,
+       aes(x = slope_deg, y = snow_depth)) +
+  geom_point() +
+  labs(
+    title = "Snow Depth by Roof Slope",
+    x = "Roof Slope (degrees)",
+    y = "Snow Depth (m)"
+  ) +
+  theme_minimal()
+
+cor(
+  all_summary_results_0.8$snow_depth,
+  all_summary_results_0.8$slope_deg,
+  use = "pairwise.complete.obs")

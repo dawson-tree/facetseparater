@@ -595,3 +595,94 @@ facet_separation(15197,
 facet_separation(4648,
                  valid_polys,
                  corrected_raster)
+
+
+
+
+################# Facet Snow Summary ###########################################
+library(terra)
+library(dplyr)
+devtools::load_all(".")
+
+corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
+snow_clip <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/snow_clip.tif")
+
+
+all_facet_results <- lapply(valid_polys$building_id,
+                            function(x) {
+                              fs_results <- facet_separation(x,
+                                                             valid_polys,
+                                                             corrected_raster,
+                                                             quiet = TRUE,
+                                                             plot = FALSE,
+                                                             plot3d = FALSE)
+                              fs_results
+                            })
+
+saveRDS(all_facet_results, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_facet_results_halfm.rds")
+
+
+all_summary_results_0.8 <- lapply(all_facet_results,
+                                  function(fs_results) {
+                                    tryCatch({
+                                      snow_depths <- facet_snow_summary(fs_results,
+                                                                        snow_clip,
+                                                                        cutoff = 0.8)
+                                      return(snow_depths)
+                                    }, error = function(e) {
+                                      # message("Error processing a facet: ", e$message)
+                                      return(NULL)
+                                    })
+                                  }) |>
+  bind_rows()
+
+
+(length(all_summary_results_0.8$snow_depth) -
+    sum(is.na(all_summary_results_0.8$snow_depth))) / length(all_summary_results_0.8$snow_depth)
+
+saveRDS(all_summary_results_0.8, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_summary_results_halfm_80.rds")
+
+
+############
+
+all_summary_results_0.7 <- lapply(all_facet_results,
+                                  function(fs_results) {
+                                    tryCatch({
+                                      snow_depths <- facet_snow_summary(fs_results,
+                                                                        snow_clip,
+                                                                        cutoff = 0.7)
+                                      return(snow_depths)
+                                    }, error = function(e) {
+                                      return(NULL)
+                                    })
+                                  }) |>
+  bind_rows()
+
+
+(length(all_summary_results_0.7$snow_depth) -
+    sum(is.na(all_summary_results_0.7$snow_depth))) / length(all_summary_results_0.7$snow_depth)
+
+saveRDS(all_summary_results_0.7, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_summary_results_halfm_70.rds")
+
+
+############
+
+all_summary_results_0.5 <- lapply(all_facet_results,
+                                  function(fs_results) {
+                                    tryCatch({
+                                      snow_depths <- facet_snow_summary(fs_results,
+                                                                        snow_clip,
+                                                                        cutoff = 0.5)
+                                      return(snow_depths)
+                                    }, error = function(e) {
+                                      return(NULL)
+                                    })
+                                  }) |>
+  bind_rows()
+
+
+(length(all_summary_results_0.5$snow_depth) -
+    sum(is.na(all_summary_results_0.5$snow_depth))) / length(all_summary_results_0.5$snow_depth)
+
+saveRDS(all_summary_results_0.5, "C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_summary_results_halfm_50.rds")
