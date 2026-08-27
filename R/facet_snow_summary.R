@@ -30,7 +30,7 @@
 #' @export
 facet_snow_summary <- function(fs_results,
                                snow_depth,
-                               cutoff) {
+                               cutoff = 0.8) {
 
   facet_snow_sum <- cbind(fs_results$summary_table,
                           terra::extract(snow_depth,
