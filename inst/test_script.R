@@ -4,6 +4,9 @@ devtools::load_all(".")
 corrected_raster <- rast("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
 valid_polys <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
 
+corrected_raster <- rast("C:/Users/dtree/Box/Snow Load Research Stuff/Data/SnowData/corrected_raster_na_imputation.tif")
+valid_polys <- readRDS("C:/Users/dtree/Box/Snow Load Research Stuff/Data/SnowData/valid_polys_70.rds")
+
 par(mfrow = c(3,3))
 
 fs_results <- facet_separation(id = 5895,
