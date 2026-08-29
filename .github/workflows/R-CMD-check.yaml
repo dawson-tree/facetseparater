@@ -13,6 +13,9 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
+    env:
+      RGL_USE_NULL: "true"
+
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -38,6 +41,11 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
+
+      - name: Install rgl without OpenGL (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          Rscript -e "install.packages('rgl', type = 'source', configure.args = '--disable-opengl')"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
