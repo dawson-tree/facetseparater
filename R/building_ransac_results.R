@@ -54,7 +54,7 @@ building_ransac_results <- function(facets,
     v  <- stats::na.omit(ex)
 
     if (nrow(v) < min_inliers) {
-      if (!quiet) message("Facet ", id, ": not enough points.")
+      if (!quiet) message("Facet ", id, ": Not enough points")
       next
     }
 
@@ -119,7 +119,7 @@ building_ransac_results <- function(facets,
     }
 
     if (is.null(best_plane)) {
-      if (!quiet) message("Facet ", id, ": no valid plane found.")
+      if (!quiet) message("Facet ", id, ": No valid plane found")
       next
     }
 
@@ -176,11 +176,10 @@ building_ransac_results <- function(facets,
 
     if (!quiet) {
       message(
-        "Processed facet ", id,
-        " (", nrow(best_inliers),
-        " inliers | spread: ",
-        round(slope_spread, 2),
-        "degree | top5 n=", top5_count, ")"
+        "Facet ", id, " Processed",
+        " | Slope: ", round(slope_deg, 2), "\u00B0",
+        " | Inliers: ", nrow(best_inliers),
+        " | Top 5% Spread: ", round(slope_spread, 2), "\u00B0"
       )
     }
   }
@@ -211,20 +210,11 @@ building_ransac_results <- function(facets,
 
   rownames(summary_table) <- NULL
 
-
-
   building_results <- list(
     results_list  = results,
     summary_table = summary_table,
     facet_polys = final_facet_polys
   )
-
-  # names(building_results[['results_list']]) <-
-  #   seq_along(building_results[['results_list']])
-  #
-  # for (i in seq_along(building_results[['results_list']])) {
-  #   building_results[['results_list']][[i]][['facet_no']] <- i
-  # }
 
   building_results
 }

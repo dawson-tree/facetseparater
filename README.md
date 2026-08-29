@@ -13,7 +13,7 @@ by facet. It builds off the building polygon and roof slope extraction
 workflow implemented by the rasterpolygonizer package found
 [here](https://github.com/jashonnew/rasterpolygonizer).
 
-## Installation
+## Package Installation
 
 You can install the development version of facetseparater from
 [GitHub](https://github.com/) with:
@@ -70,12 +70,13 @@ fs_results <- facet_separation(4642,
                                quiet = FALSE,
                                plot = TRUE,
                                plot3d = FALSE)
-#> Main Peak at: 17.83
-#> Boundaries: [12.53, 24.17]
-#> Retained 317 out of 349 points (90.8%)
-#> Processed facet 1 (160 inliers | spread: 1.27degree | top5 n=10)
-#> Facet 2: not enough points.
-#> Processed facet 3 (156 inliers | spread: 0.86degree | top5 n=10)
+#> Summary of KDE Filter Results
+#> Mode of Slope Distribution: 17.83°
+#> KDE Filter Boundaries: [12.53°, 24.17°]
+#> Points Retained: 317 out of 349 (90.8%)
+#> Facet 1 Processed | Slope: 18.03° | Inliers: 160 | Top 5% Spread: 1.27°
+#> Facet 2: Not enough points
+#> Facet 3 Processed | Slope: 17.07° | Inliers: 156 | Top 5% Spread: 0.86°
 ```
 
 <img src="man/figures/README-facet-separation-1.png" alt="" width="100%" /><img src="man/figures/README-facet-separation-2.png" alt="" width="100%" /><img src="man/figures/README-facet-separation-3.png" alt="" width="100%" />
