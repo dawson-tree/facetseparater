@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/dawson-tree/facetseparater/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dawson-tree/facetseparater/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of facetseparater is to use LiDAR-derived elevation data to
