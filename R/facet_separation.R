@@ -38,12 +38,16 @@
 #'   \item{results_list}{A list of lists with detailed results for each roof
 #'       facet.}
 #'   \item{summary_table}{Data frame summarizing slope, aspect, snow depth,
-#"       inliers, and stability metrics for each roof facet.}
+#'       inliers, and stability metrics for each roof facet.}
 #'   \item{facet_polys}{A terra::SpatVector of polygons representing each of the
-#"       final roof facets}
+#'       final roof facets}
 #' }
 #'
 #' @examples
+#' sample_raster <- terra::rast(system.file("extdata",
+#'                                          "sample_raster.tif",
+#'                                          package = "facetseparater"))
+#'
 #' fs_results <- facet_separation(id = 4642,
 #'                                buildings = sample_buildings,
 #'                                raster = sample_raster,
@@ -141,7 +145,7 @@ facet_separation <- function(id,
     plot_facets_3d(results_obj = building_results,
                    raster = raster,
                    building = building,
-                   thresh = threshold, grid_res = 30, snapshot = FALSE)
+                   thresh = threshold)
   }
 
   building_results

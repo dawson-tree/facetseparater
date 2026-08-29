@@ -11,6 +11,10 @@ kde_filter(building, slope_raster, adjust = 1, n = 2048, quiet = FALSE)
 created using the workflow from the package 'rasterpolygonizer' that
 has one observation representing the interior polygon of one building.}
 
+\item{slope_raster}{A raster of the class 'terra::SpatRaster' that shows the
+slope value for each pixel, as calculated by the 'terra:terrain'
+function.}
+
 \item{adjust}{The 'adjust' argument given to the 'density' function, or the
 adjustment to the smoothing bandwidth used for kernel density estimation.
 More detailed information can be found in the 'density' function
@@ -23,10 +27,6 @@ documentation.}
 
 \item{quiet}{Logical argument indicating whether summary messages should be
 printed.}
-
-\item{full_slope_raster}{A raster of the class 'terra::SpatRaster' that shows
-the slope value for each pixel, as calculated by the 'terra:terrain'
-function.}
 }
 \value{
 A 'terra::SpatRaster' object where the value of each pixel indicates

@@ -39,7 +39,9 @@ A list containing the following:
 \item{results_list}{A list of lists with detailed results for each roof
 facet.}
 \item{summary_table}{Data frame summarizing slope, aspect, snow depth,
+inliers, and stability metrics for each roof facet.}
 \item{facet_polys}{A terra::SpatVector of polygons representing each of the
+final roof facets}
 }
 }
 \description{

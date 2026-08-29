@@ -4,7 +4,7 @@
 #'     area surrounding a missing value. This NA imputation strategy is ideal
 #'     for accurately replacing missing rooftop pixel values.
 #'
-#' @param A 'terra::SpatRaster' object.
+#' @param raster A 'terra::SpatRaster' object.
 #'
 #' @return A 'terra::SpatRaster' object corrected with this missing value
 #'     imputation strategy.

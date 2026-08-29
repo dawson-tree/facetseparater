@@ -3,13 +3,14 @@ Title: Uses elevation data to separate building roofs into facets and give summa
 Version: 0.0.0.9000
 Authors@R: 
     person("Dawson", "Tree", , "Dtree03@gmail.com", role = c("aut", "cre"))
-Description: This package builds off of the workflow outlined by the rasterpolygonizer package to take Lidar elevation data and building polygons and (finish this)
+Description: The 'facetseparater' package uses LiDAR-derived elevation data to separate building roofs into separate facets and give summary statistics by facet. It builds off the building polygon and roof slope extraction workflow implemented by the 'rasterpolygonizer' package.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports: 
     terra,
+    sf,
     stats,
     rgl,
     dplyr,

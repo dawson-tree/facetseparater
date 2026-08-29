@@ -25,5 +25,5 @@ meters.}
 Plot the final facets and estimated planes for each facet on a roof. Red
 points represent elevation values that are inliers for each facet, while
 gray points represent outliers. Summary statistics for each facet are
-shown as well
+shown as well.
 }

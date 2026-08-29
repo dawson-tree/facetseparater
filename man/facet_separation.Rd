@@ -64,7 +64,9 @@ A list containing the following:
 \item{results_list}{A list of lists with detailed results for each roof
 facet.}
 \item{summary_table}{Data frame summarizing slope, aspect, snow depth,
+inliers, and stability metrics for each roof facet.}
 \item{facet_polys}{A terra::SpatVector of polygons representing each of the
+final roof facets}
 }
 }
 \description{
@@ -75,6 +77,10 @@ the RANSAC algorithm on each facet to determine facet slope and aspect,
 with options to plot raster information and resulting facets.
 }
 \examples{
+sample_raster <- terra::rast(system.file("extdata",
+                                         "sample_raster.tif",
+                                         package = "facetseparater"))
+
 fs_results <- facet_separation(id = 4642,
                                buildings = sample_buildings,
                                raster = sample_raster,

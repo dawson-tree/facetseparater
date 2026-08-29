@@ -3,7 +3,7 @@
 #' Plot the final facets and estimated planes for each facet on a roof. Red
 #'     points represent elevation values that are inliers for each facet, while
 #'     gray points represent outliers. Summary statistics for each facet are
-#'     shown as well
+#'     shown as well.
 #'
 #' @param results_obj A list that is the output from the
 #'     'building_ransac_results' function and contains facet characteristic
@@ -102,7 +102,7 @@ plot_facets_3d <- function(results_obj,
     rgl::axes3d(edges = c("x--", "y+-", "z--"))
     rgl::title3d(main = paste0("Facet ", facet$facet_no,
                           "  |  Slope: ", round(res_entry$slope_deg,2),
-                          "°",
+                          "\u00B0",
                           "  |  Inliers: ", res_entry$n_inliers),
                  line = 7, usePlotmath = TRUE)
     rgl::title3d(xlab = "x", ylab = "y", zlab = "z", usePlotmath = TRUE)

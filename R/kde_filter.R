@@ -11,8 +11,8 @@
 #' @param building An object of the classes 'sf::sf' and 'data.frame' that was
 #'     created using the workflow from the package 'rasterpolygonizer' that
 #'     has one observation representing the interior polygon of one building.
-#' @param full_slope_raster A raster of the class 'terra::SpatRaster' that shows
-#'     the slope value for each pixel, as calculated by the 'terra:terrain'
+#' @param slope_raster A raster of the class 'terra::SpatRaster' that shows the
+#'     slope value for each pixel, as calculated by the 'terra:terrain'
 #'     function.
 #' @param adjust The 'adjust' argument given to the 'density' function, or the
 #'     adjustment to the smoothing bandwidth used for kernel density estimation.

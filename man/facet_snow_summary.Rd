@@ -22,6 +22,13 @@ Calculate mean snow depth for a roof facet and return the results, as well as
 other important facet characteristics, such as slope and aspect.
 }
 \examples{
+sample_raster <- terra::rast(system.file("extdata",
+                                         "sample_raster.tif",
+                                         package = "facetseparater"))
+sample_snow_depth <- terra::rast(system.file("extdata",
+                                             "sample_snow_depth.tif",
+                                             package = "facetseparater"))
+
 fs_results <- facet_separation(4642,
                                sample_buildings,
                                sample_raster)

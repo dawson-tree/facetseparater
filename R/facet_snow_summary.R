@@ -12,6 +12,13 @@
 #'     a valid snow depth estimate for a roof facet.
 #'
 #' @examples
+#' sample_raster <- terra::rast(system.file("extdata",
+#'                                          "sample_raster.tif",
+#'                                          package = "facetseparater"))
+#' sample_snow_depth <- terra::rast(system.file("extdata",
+#'                                              "sample_snow_depth.tif",
+#'                                              package = "facetseparater"))
+#'
 #' fs_results <- facet_separation(4642,
 #'                                sample_buildings,
 #'                                sample_raster)

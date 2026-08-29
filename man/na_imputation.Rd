@@ -7,7 +7,7 @@
 na_imputation(raster)
 }
 \arguments{
-\item{A}{'terra::SpatRaster' object.}
+\item{raster}{A 'terra::SpatRaster' object.}
 }
 \value{
 A 'terra::SpatRaster' object corrected with this missing value
