@@ -64,8 +64,6 @@ will use the options that print out extra information and
 two-dimensional plots.
 
 ``` r
-par(mfrow = c(1,3))
-
 fs_results <- facet_separation(4642,
                                sample_buildings,
                                sample_raster,
@@ -81,7 +79,7 @@ fs_results <- facet_separation(4642,
 #> Facet 3 Processed | Slope: 17.07° | Inliers: 156 | Top 5% Spread: 0.86°
 ```
 
-<img src="man/figures/README-facet-separation-1.png" alt="" width="100%" />
+<img src="man/figures/README-facet-separation-1.png" alt="" width="100%" /><img src="man/figures/README-facet-separation-2.png" alt="" width="100%" /><img src="man/figures/README-facet-separation-3.png" alt="" width="100%" />
 
 The `facet_snow_summary` function is used on the output from the
 `facet_separation` function and a snow depth raster to create a

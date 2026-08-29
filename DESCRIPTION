@@ -1,5 +1,5 @@
 Package: facetseparater
-Title: Separates building roofs into separate facets and gives summary statistics by facet
+Title: Uses elevation data to separate building roofs into facets and give summary statistics by facet
 Version: 0.0.0.9000
 Authors@R: 
     person("Dawson", "Tree", , "Dtree03@gmail.com", role = c("aut", "cre"))

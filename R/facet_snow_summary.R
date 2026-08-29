@@ -12,17 +12,15 @@
 #'     a valid snow depth estimate for a roof facet.
 #'
 #' @examples
-#' fs_results <- facet_separation(165,
-#'                                smoothed_buildings,
-#'                                corrected_raster)
-#' snow_depth <- raster_snow - raster_no_snow
+#' fs_results <- facet_separation(4642,
+#'                                sample_buildings,
+#'                                sample_raster)
 #' fs_summary <- facet_snow_summary(fs_results = fs_results,
-#'                                  snow_depth = snow_depth,
-#'                                  cutoff = 0.5)
+#'                                  snow_depth = sample_snow_depth,
+#'                                  cutoff = 0.8)
 #'
 #' fs_summary <- facet_snow_summary(fs_results,
-#'                                  snow_depth,
-#'                                  0.8)
+#'                                  sample_snow_depth)
 #'
 #' @importFrom terra extract
 #' @importFrom dplyr rename select

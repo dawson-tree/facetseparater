@@ -75,25 +75,26 @@ the RANSAC algorithm on each facet to determine facet slope and aspect,
 with options to plot raster information and resulting facets.
 }
 \examples{
-fs_results <- facet_separation(id = 165,
-                               buildings = smoothed_buildings,
-                               raster = corrected_raster,
+fs_results <- facet_separation(id = 4642,
+                               buildings = sample_buildings,
+                               raster = sample_raster,
                                seed = 1234,
                                adjust = 1,
                                kde_n = 2048,
-                               n = 500L,
+                               ransac_n = 500L,
+                               threshold = 0.1,
                                min_inliers = 10L,
                                quiet = FALSE,
                                plot = TRUE,
                                plot3d = TRUE)
 
-fs_results <- facet_separation(id = 711,
-                               buildings = smoothed_buildings,
-                               raster = corrected_raster,
+fs_results <- facet_separation(id = 4641,
+                               buildings = sample_buildings,
+                               raster = sample_raster,
                                plot3d = FALSE)
 
-fs_results <- facet_separation(167,
-                               smoothed_buildings,
-                               corrected_raster)
+fs_results <- facet_separation(3696,
+                               sample_buildings,
+                               sample_raster)
 
 }

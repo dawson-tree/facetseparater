@@ -1,6 +1,12 @@
-
-
-# It can mess up really small buildings
+#' Erode pixel-wide bridges between groups of connected non-missing pixels
+#'
+#' Erode pixel-wide bridges between groups of connected non-missing pixels,
+#'     ensuring noise in one pixel doesn't result in inaccurate final facet
+#'     groupings.
+#'
+#' @param raster A 'terra::SpatRaster' object.
+#'
+#' @returns A 'terra::SpatRaster' object with pixel-wide bridges removed.
 erode <- function(raster) {
   corrected_raster <- focal(
     raster,

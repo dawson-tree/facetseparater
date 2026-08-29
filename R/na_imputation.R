@@ -1,12 +1,17 @@
-
-
-
-
-na_imputation <- function(raster,
-                          w = 3) {
+#' Perform NA imputation on a raster
+#'
+#' Perform NA imputation on a raster by fitting a quadratic surface with the 3x3
+#'     area surrounding a missing value. This NA imputation strategy is ideal
+#'     for accurately replacing missing rooftop pixel values.
+#'
+#' @param A 'terra::SpatRaster' object.
+#'
+#' @return A 'terra::SpatRaster' object corrected with this missing value
+#'     imputation strategy.
+na_imputation <- function(raster) {
   corrected_raster <- focal(
     raster,
-    w = w,
+    w = 3,
     fun = function(x) {
       # x[5] is the center focal cell
       # If the focal cell is already valid, keep its original value

@@ -55,8 +55,6 @@ plot_raster(sample_raster,
 The `facet_separation` function is used to separate a specific building roof into its distinct roof facets. The function also has options for whether to print out information about the facet separation, two-dimensional plots showing the process of arriving at the final facets, and three-dimensional plots that give you a closer look at the final facets and how well they fit the data. For this demonstration, we will use the options that print out extra information and two-dimensional plots.
 
 ```{r facet-separation}
-par(mfrow = c(1,3))
-
 fs_results <- facet_separation(4642,
                                sample_buildings,
                                sample_raster,

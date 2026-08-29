@@ -32,7 +32,19 @@ plot_raster <- function(raster,
 }
 
 
-
+#' Perform a function with a minimum proportion of non-missing values in the
+#'     input
+#'
+#' Perform a function, returning a non-missing value only if a certain
+#'     proportion of the input is non-missing
+#'
+#' @param x The primary input.
+#' @param fun The function that will be performed on the input.
+#' @param cutoff The minimum proportion of non-missing values required in the
+#'     input to return a non-missing value.
+#'
+#' @return Either the output of the function performed on the input or a missing
+#'     value.
 fun_w_cutoff <- function(x, fun, cutoff) {
   if (mean(!is.na(x)) < cutoff) {
     return(NA)
@@ -42,22 +54,3 @@ fun_w_cutoff <- function(x, fun, cutoff) {
   }
 }
 
-
-
-
-
-# plot_raster <- function(raster,
-#                         buildings,
-#                         xmin,
-#                         xmax,
-#                         ymin,
-#                         ymax,
-#                         title = "") {
-#   cropped_raster <- terra::crop(raster, ext(xmin, xmax, ymin, ymax))
-#
-#   plot(cropped_raster,
-#        xlim = c(xmin, xmax),
-#        ylim = c(ymin, ymax),
-#        main = title)
-#   lines(buildings, col = "red", lwd = 2)
-# }
