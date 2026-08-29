@@ -35,41 +35,40 @@ kde_filter <- function(building,
                        n = 2048,
                        quiet = FALSE) {
 
-  # slope_raster <- crop(full_slope_raster, building, mask = TRUE)
-
   slope_vector <- values(slope_raster, mat = FALSE) |>
     na.omit()
 
-  # 2. Compute Kernel Density Estimation
+  # KDE
   dens <- density(slope_vector, n = n, adjust = adjust) # I'm feeling good about this
 
-  # 3. Find the main peak (mode)
+  # Find main peak
   max_peak_idx <- which.max(dens$y)
   main_peak_x  <- dens$x[max_peak_idx]
 
-  # 4. Identify local minima (troughs) in the density curve
-  # A point is a local minimum if it is smaller than both neighboring points
+  # Find local minima
   is_trough <- c(FALSE,
                  diff(sign(diff(dens$y))) == 2,
                  FALSE)
   trough_indices <- which(is_trough)
 
-  # 5. Find the immediate left and right boundaries around the main peak
+  # Find closest local minima
   left_troughs  <- trough_indices[trough_indices < max_peak_idx]
   right_troughs <- trough_indices[trough_indices > max_peak_idx]
 
-  # Set lower cutoff (use first trough to the left, or min value if no trough exists)
+  # Set lower cutoff
   lower_cutoff <- if (length(left_troughs) > 0) dens$x[max(left_troughs)] else min(slope_vector)
 
-  # Set upper cutoff (use first trough to the right, or max value if no trough exists)
+  # Set upper cutoff
   upper_cutoff <- if (length(right_troughs) > 0) dens$x[min(right_troughs)] else max(slope_vector)
 
-  # 6. Filter the original dataset to keep only the main cluster
+  # Keep only main cluster
   filtered_slope_vector <- slope_vector[slope_vector >= lower_cutoff & slope_vector <= upper_cutoff]
 
 
   clamped_slope_raster <- clamp(slope_raster,
-                                lower = lower_cutoff, upper = upper_cutoff, values = FALSE)
+                                lower = lower_cutoff,
+                                upper = upper_cutoff,
+                                values = FALSE)
 
   # For debugging
   # plot_raster(clamped_slope_raster,
@@ -77,7 +76,6 @@ kde_filter <- function(building,
   #             title = "Clamped Raster")
 
   # Erosion function
-
   eroded_slope_raster <- erode(clamped_slope_raster)
 
   # For debugging

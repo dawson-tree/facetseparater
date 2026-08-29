@@ -11,7 +11,7 @@ The goal of facetseparater is to use LiDAR-derived elevation data to
 separate building roofs into separate facets and give summary statistics
 by facet. It builds off the building polygon and roof slope extraction
 workflow implemented by the rasterpolygonizer package found
-{here\](<https://github.com/jashonnew/rasterpolygonizer>).
+[here](https://github.com/jashonnew/rasterpolygonizer).
 
 ## Installation
 
