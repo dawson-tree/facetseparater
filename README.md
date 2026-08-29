@@ -59,11 +59,13 @@ roof into its distinct roof facets. The function also has options for
 whether to print out information about the facet separation,
 two-dimensional plots showing the process of arriving at the final
 facets, and three-dimensional plots that give you a closer look at the
-final facets and how well they fit the data. For the demonstration, we
+final facets and how well they fit the data. For this demonstration, we
 will use the options that print out extra information and
 two-dimensional plots.
 
 ``` r
+par(mfrow = c(1,3))
+
 fs_results <- facet_separation(4642,
                                sample_buildings,
                                sample_raster,
@@ -79,7 +81,7 @@ fs_results <- facet_separation(4642,
 #> Facet 3 Processed | Slope: 17.07° | Inliers: 156 | Top 5% Spread: 0.86°
 ```
 
-<img src="man/figures/README-facet-separation-1.png" alt="" width="100%" /><img src="man/figures/README-facet-separation-2.png" alt="" width="100%" /><img src="man/figures/README-facet-separation-3.png" alt="" width="100%" />
+<img src="man/figures/README-facet-separation-1.png" alt="" width="100%" />
 
 The `facet_snow_summary` function is used on the output from the
 `facet_separation` function and a snow depth raster to create a
