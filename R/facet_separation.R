@@ -141,7 +141,7 @@ facet_separation <- function(id,
     plot_facets_3d(results_obj = building_results,
                    raster = raster,
                    building = building,
-                   thresh = 0.1, grid_res = 30, snapshot = FALSE)
+                   thresh = threshold, grid_res = 30, snapshot = FALSE)
   }
 
   building_results

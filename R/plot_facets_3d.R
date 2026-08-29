@@ -1,3 +1,21 @@
+#' Plot the facets of a roof in three dimensions
+#'
+#' Plot the final facets and estimated planes for each facet on a roof. Red
+#'     points represent elevation values that are inliers for each facet, while
+#'     gray points represent outliers. Summary statistics for each facet are
+#'     shown as well
+#'
+#' @param results_obj A list that is the output from the
+#'     'building_ransac_results' function and contains facet characteristic
+#'     information in the elements 'results_list', 'summary_table', and
+#'     'facet_polys'.
+#' @param raster A 'terra::SpatRaster' object representing the measured
+#'     elevation data.
+#' @param building The interior polygon of the building whose facets are being
+#'     plotted.
+#' @param thresh Residual threshold for RANSAC inlier classification in
+#'     meters.
+#'
 #' @import terra
 #' @import rgl
 #' @importFrom htmlwidgets saveWidget
@@ -6,13 +24,9 @@
 plot_facets_3d <- function(results_obj,
                            raster,
                            building,
-                           thresh = 0.1,
-                           grid_res = 30,
-                           snapshot = FALSE,
-                           snapshot_file = "building_plot.png",
-                           save_html = FALSE,
-                           html_file = "building_plot.html") {
+                           thresh = 0.1) {
   building <- terra::vect(building)
+  grid_res <- 30
 
   for (facet in results_obj$results_list) {
     # --- 1. pull result entry ---
@@ -36,10 +50,7 @@ plot_facets_3d <- function(results_obj,
 
     # --- 2. re-extract all points from raster for that building polygon ---
     bldg_poly <- building
-    # [values(buildings) == building_id, , drop = FALSE]
-    # if(nrow(bldg_poly) == 0) stop("No polygon found for building_id ", building_id)
 
-    # ex <- terra::extract(raster, vect(bldg_poly), cells = TRUE, xy = TRUE)
     ex <- terra::extract(raster, bldg_poly, cells = TRUE, xy = TRUE)
     ex <- as.data.frame(ex)
     ex <- na.omit(ex)
@@ -54,7 +65,7 @@ plot_facets_3d <- function(results_obj,
     pts_all$key <- paste0(round(pts_all$x, round_digits), "_", round(pts_all$y, round_digits), "_", round(pts_all$z, round_digits))
     inliers_df$key <- paste0(round(inliers_df$x, round_digits), "_", round(inliers_df$y, round_digits), "_", round(inliers_df$z, round_digits))
 
-    # non-inliers = pts_all \ inliers
+    # non-inliers = pts_all - inliers
     non_inliers <- pts_all %>% filter(!key %in% inliers_df$key)
     # if non_inliers is empty, relax match by only x,y (not z)
     if(nrow(non_inliers) == 0) {
@@ -96,21 +107,6 @@ plot_facets_3d <- function(results_obj,
                  line = 7, usePlotmath = TRUE)
     rgl::title3d(xlab = "x", ylab = "y", zlab = "z", usePlotmath = TRUE)
 
-  }
-
-  # optional: save PNG snapshot
-  if(isTRUE(snapshot)) {
-    # small pause to let rgl render
-    Sys.sleep(0.2)
-    rgl::rgl.snapshot(snapshot_file)
-    message("Saved snapshot to: ", snapshot_file)
-  }
-
-  # optional: save HTML interactive widget
-  if(isTRUE(save_html)) {
-    wid <- rgl::rglwidget()
-    htmlwidgets::saveWidget(wid, html_file, selfcontained = TRUE)
-    message("Saved interactive html to: ", html_file)
   }
 
   # return invisibly the plotted objects for downstream use
