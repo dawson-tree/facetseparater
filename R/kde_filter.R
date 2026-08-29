@@ -34,41 +34,56 @@ kde_filter <- function(building,
                        adjust = 1,
                        n = 2048,
                        quiet = FALSE) {
-
   slope_vector <- values(slope_raster, mat = FALSE) |>
     na.omit()
 
   # KDE
-  dens <- density(slope_vector, n = n, adjust = adjust) # I'm feeling good about this
+  dens <- density(slope_vector, n = n, adjust = adjust)
 
   # Find main peak
   max_peak_idx <- which.max(dens$y)
-  main_peak_x  <- dens$x[max_peak_idx]
+  main_peak_x <- dens$x[max_peak_idx]
 
   # Find local minima
-  is_trough <- c(FALSE,
-                 diff(sign(diff(dens$y))) == 2,
-                 FALSE)
+  is_trough <- c(
+    FALSE,
+    diff(sign(diff(dens$y))) == 2,
+    FALSE
+  )
   trough_indices <- which(is_trough)
 
   # Find closest local minima
-  left_troughs  <- trough_indices[trough_indices < max_peak_idx]
+  left_troughs <- trough_indices[trough_indices < max_peak_idx]
   right_troughs <- trough_indices[trough_indices > max_peak_idx]
 
   # Set lower cutoff
-  lower_cutoff <- if (length(left_troughs) > 0) dens$x[max(left_troughs)] else min(slope_vector)
+  lower_cutoff <- if (
+    length(left_troughs) > 0
+  ) {
+    dens$x[max(left_troughs)]
+  } else {
+    min(slope_vector)
+  }
 
   # Set upper cutoff
-  upper_cutoff <- if (length(right_troughs) > 0) dens$x[min(right_troughs)] else max(slope_vector)
+  upper_cutoff <- if (
+    length(right_troughs) > 0
+  ) {
+    dens$x[min(right_troughs)]
+  } else {
+    max(slope_vector)
+  }
 
   # Keep only main cluster
-  filtered_slope_vector <- slope_vector[slope_vector >= lower_cutoff & slope_vector <= upper_cutoff]
+  filtered_slope_vector <- slope_vector[slope_vector >= lower_cutoff &
+    slope_vector <= upper_cutoff]
 
 
   clamped_slope_raster <- clamp(slope_raster,
-                                lower = lower_cutoff,
-                                upper = upper_cutoff,
-                                values = FALSE)
+    lower = lower_cutoff,
+    upper = upper_cutoff,
+    values = FALSE
+  )
 
   # For debugging
   # plot_raster(clamped_slope_raster,
@@ -86,20 +101,20 @@ kde_filter <- function(building,
   patch_slope_raster <- terra::patches(eroded_slope_raster, directions = 4)
 
   if (!quiet) {
-
     # Print KDE summary
     cat(sprintf("Summary of KDE Filter Results\n"))
     cat(sprintf("Mode of Slope Distribution: %.2f\u00B0\n", main_peak_x))
-    cat(sprintf("KDE Filter Boundaries: [%.2f\u00B0, %.2f\u00B0]\n", lower_cutoff, upper_cutoff))
-    # cat(sprintf("Retained %d out of %d points (%.1f%%)\n",
-    #             length(filtered_slope_vector), length(slope_vector),
-    #             100 * length(filtered_slope_vector) / length(slope_vector)))
-    cat(sprintf("Points Retained: %d out of %d (%.1f%%)\n",
-                length(filtered_slope_vector), length(slope_vector),
-                100 * length(filtered_slope_vector) / length(slope_vector)))
+    cat(sprintf(
+      "KDE Filter Boundaries: [%.2f\u00B0, %.2f\u00B0]\n",
+      lower_cutoff, upper_cutoff
+    ))
+    cat(sprintf(
+      "Points Retained: %d out of %d (%.1f%%)\n",
+      length(filtered_slope_vector), length(slope_vector),
+      100 * length(filtered_slope_vector) / length(slope_vector)
+    ))
   }
 
   facet_polys <- as.polygons(patch_slope_raster, aggregate = TRUE, na.rm = TRUE)
   facet_polys
 }
-

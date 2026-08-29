@@ -36,20 +36,24 @@ library(terra)
 #> Warning: package 'terra' was built under R version 4.5.3
 #> terra 1.9.46
 
-sample_raster <- terra::rast(system.file("extdata", 
-                                         "sample_raster.tif", 
-                                         package = "facetseparater"))
-sample_snow_depth <- terra::rast(system.file("extdata", 
-                                             "sample_snow_depth.tif", 
-                                             package = "facetseparater"))
+sample_raster <- terra::rast(system.file("extdata",
+  "sample_raster.tif",
+  package = "facetseparater"
+))
+sample_snow_depth <- terra::rast(system.file("extdata",
+  "sample_snow_depth.tif",
+  package = "facetseparater"
+))
 ```
 
 The `plot_raster` function can be used to plot a raster and building
 polygons in the extent of the polygons.
 
 ``` r
-plot_raster(sample_raster,
-            sample_buildings)
+plot_raster(
+  sample_raster,
+  sample_buildings
+)
 ```
 
 <img src="man/figures/README-plot-raster-1.png" alt="" width="100%" />
@@ -65,11 +69,12 @@ two-dimensional plots.
 
 ``` r
 fs_results <- facet_separation(4642,
-                               sample_buildings,
-                               sample_raster,
-                               quiet = FALSE,
-                               plot = TRUE,
-                               plot3d = FALSE)
+  sample_buildings,
+  sample_raster,
+  quiet = FALSE,
+  plot = TRUE,
+  plot3d = FALSE
+)
 #> Summary of KDE Filter Results
 #> Mode of Slope Distribution: 17.83°
 #> KDE Filter Boundaries: [12.53°, 24.17°]
@@ -87,8 +92,10 @@ dataframe containing the characteristics of each individual roof facet,
 including slope, aspect, and mean snow depth.
 
 ``` r
-fs_snow_results <- facet_snow_summary(fs_results,
-                                      sample_snow_depth)
+fs_snow_results <- facet_snow_summary(
+  fs_results,
+  sample_snow_depth
+)
 fs_snow_results
 #>   facet_no slope_deg aspect_deg n_inliers slope_range top_5_percent_count
 #> 1        1  18.02987   23.97634       160   1.2738777                  10

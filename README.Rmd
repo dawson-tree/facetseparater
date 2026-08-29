@@ -37,36 +37,43 @@ The facetseparater package includes a sample elevation raster, a sample snow dep
 library(facetseparater)
 library(terra)
 
-sample_raster <- terra::rast(system.file("extdata", 
-                                         "sample_raster.tif", 
-                                         package = "facetseparater"))
-sample_snow_depth <- terra::rast(system.file("extdata", 
-                                             "sample_snow_depth.tif", 
-                                             package = "facetseparater"))
+sample_raster <- terra::rast(system.file("extdata",
+  "sample_raster.tif",
+  package = "facetseparater"
+))
+sample_snow_depth <- terra::rast(system.file("extdata",
+  "sample_snow_depth.tif",
+  package = "facetseparater"
+))
 ```
 
 The `plot_raster` function can be used to plot a raster and building polygons in the extent of the polygons.
 
 ```{r plot-raster}
-plot_raster(sample_raster,
-            sample_buildings)
+plot_raster(
+  sample_raster,
+  sample_buildings
+)
 ```
 
 The `facet_separation` function is used to separate a specific building roof into its distinct roof facets. The function also has options for whether to print out information about the facet separation, two-dimensional plots showing the process of arriving at the final facets, and three-dimensional plots that give you a closer look at the final facets and how well they fit the data. For this demonstration, we will use the options that print out extra information and two-dimensional plots.
 
 ```{r facet-separation}
 fs_results <- facet_separation(4642,
-                               sample_buildings,
-                               sample_raster,
-                               quiet = FALSE,
-                               plot = TRUE,
-                               plot3d = FALSE)
+  sample_buildings,
+  sample_raster,
+  quiet = FALSE,
+  plot = TRUE,
+  plot3d = FALSE
+)
 ```
 
 The `facet_snow_summary` function is used on the output from the `facet_separation` function and a snow depth raster to create a dataframe containing the characteristics of each individual roof facet, including slope, aspect, and mean snow depth.
 
 ```{r facet-snow-summary}
-fs_snow_results <- facet_snow_summary(fs_results,
-                                      sample_snow_depth)
+fs_snow_results <- facet_snow_summary(
+  fs_results,
+  sample_snow_depth
+)
 fs_snow_results
 ```

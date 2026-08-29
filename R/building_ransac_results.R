@@ -31,8 +31,6 @@ building_ransac_results <- function(facets,
                                     thresh = 0.1,
                                     min_inliers = 10L,
                                     quiet = FALSE) {
-
-
   # --- Input validation ---
   if (!inherits(raster, "SpatRaster")) {
     stop("`raster` must be a terra::SpatRaster.")
@@ -45,13 +43,12 @@ building_ransac_results <- function(facets,
   results <- list()
 
   for (i in seq_len(terra::nrow(facets))) {
-
     bldg <- facets[i, ]
-    id   <- i
+    id <- i
 
     # --- Extract raster values ---
     ex <- terra::extract(raster, bldg, cells = TRUE, xy = TRUE)
-    v  <- stats::na.omit(ex)
+    v <- stats::na.omit(ex)
 
     if (nrow(v) < min_inliers) {
       if (!quiet) message("Facet ", id, ": Not enough points")
@@ -65,13 +62,12 @@ building_ransac_results <- function(facets,
     colnames(xyz) <- c("x", "y", "z")
 
     best_inliers <- NULL
-    best_plane   <- NULL
+    best_plane <- NULL
 
     candidate_records <- vector("list", n_iter)
     n_candidates <- 0L
 
     for (j in seq_len(n_iter)) {
-
       idx <- sample.int(nrow(xyz), 3L)
       pts <- xyz[idx, , drop = FALSE]
 
@@ -112,9 +108,9 @@ building_ransac_results <- function(facets,
       )
 
       if (is.null(best_inliers) ||
-          nrow(inliers) > nrow(best_inliers)) {
+        nrow(inliers) > nrow(best_inliers)) {
         best_inliers <- inliers
-        best_plane   <- beta_tmp
+        best_plane <- beta_tmp
       }
     }
 
@@ -126,10 +122,9 @@ building_ransac_results <- function(facets,
     candidate_records <- candidate_records[seq_len(n_candidates)]
 
     slope_spread <- NA_real_
-    top5_count   <- NA_integer_
+    top5_count <- NA_integer_
 
     if (n_candidates >= 1L) {
-
       inlier_counts <- vapply(
         candidate_records,
         `[[`,
@@ -137,7 +132,7 @@ building_ransac_results <- function(facets,
         "n_inliers"
       )
 
-      top_n   <- max(1L, ceiling(n_candidates * 0.05))
+      top_n <- max(1L, ceiling(n_candidates * 0.05))
       top_idx <- order(inlier_counts, decreasing = TRUE)[seq_len(top_n)]
 
       top_slopes <- vapply(
@@ -160,7 +155,7 @@ building_ransac_results <- function(facets,
     a <- best_plane["x"]
     b <- best_plane["y"]
 
-    slope_deg  <- atan(sqrt(a^2 + b^2)) * 180 / pi
+    slope_deg <- atan(sqrt(a^2 + b^2)) * 180 / pi
     aspect_deg <- (atan2(-a, -b) * 180 / pi) %% 360
 
     results[[as.character(id)]] <- list(
@@ -184,25 +179,25 @@ building_ransac_results <- function(facets,
     }
   }
 
-  final_facet_polys <- facets[as.numeric(names(results)),]
+  final_facet_polys <- facets[as.numeric(names(results)), ]
 
   names(results) <- seq_along(results)
 
   for (i in seq_along(results)) {
-    results[[i]][['facet_no']] <- i
+    results[[i]][["facet_no"]] <- i
   }
 
   summary_table <- do.call(
     rbind,
     lapply(results, function(x) {
       data.frame(
-        facet_no         = x$facet_no,
-        slope_deg           = x$slope_deg,
-        aspect_deg          = x$aspect_deg,
-        n_inliers           = x$n_inliers,
-        slope_range        = x$slope_spread,
+        facet_no = x$facet_no,
+        slope_deg = x$slope_deg,
+        aspect_deg = x$aspect_deg,
+        n_inliers = x$n_inliers,
+        slope_range = x$slope_spread,
         top_5_percent_count = x$top5_count,
-        building_id   = building_id,
+        building_id = building_id,
         stringsAsFactors = FALSE
       )
     })
@@ -211,7 +206,7 @@ building_ransac_results <- function(facets,
   rownames(summary_table) <- NULL
 
   building_results <- list(
-    results_list  = results,
+    results_list = results,
     summary_table = summary_table,
     facet_polys = final_facet_polys
   )

@@ -45,30 +45,37 @@
 #'
 #' @examples
 #' sample_raster <- terra::rast(system.file("extdata",
-#'                                          "sample_raster.tif",
-#'                                          package = "facetseparater"))
+#'   "sample_raster.tif",
+#'   package = "facetseparater"
+#' ))
 #'
-#' fs_results <- facet_separation(id = 4642,
-#'                                buildings = sample_buildings,
-#'                                raster = sample_raster,
-#'                                seed = 1234,
-#'                                adjust = 1,
-#'                                kde_n = 2048,
-#'                                ransac_n = 500L,
-#'                                threshold = 0.1,
-#'                                min_inliers = 10L,
-#'                                quiet = FALSE,
-#'                                plot = TRUE,
-#'                                plot3d = TRUE)
+#' fs_results <- facet_separation(
+#'   id = 4642,
+#'   buildings = sample_buildings,
+#'   raster = sample_raster,
+#'   seed = 1234,
+#'   adjust = 1,
+#'   kde_n = 2048,
+#'   ransac_n = 500L,
+#'   threshold = 0.1,
+#'   min_inliers = 10L,
+#'   quiet = FALSE,
+#'   plot = TRUE,
+#'   plot3d = TRUE
+#' )
 #'
-#' fs_results <- facet_separation(id = 4641,
-#'                                buildings = sample_buildings,
-#'                                raster = sample_raster,
-#'                                plot3d = FALSE)
+#' fs_results <- facet_separation(
+#'   id = 4641,
+#'   buildings = sample_buildings,
+#'   raster = sample_raster,
+#'   plot3d = FALSE
+#' )
 #'
-#' fs_results <- facet_separation(3696,
-#'                                sample_buildings,
-#'                                sample_raster)
+#' fs_results <- facet_separation(
+#'   3696,
+#'   sample_buildings,
+#'   sample_raster
+#' )
 #'
 #' @importFrom dplyr filter
 #' @importFrom terra terrain crop res
@@ -86,66 +93,79 @@ facet_separation <- function(id,
                              min_inliers = 10L,
                              quiet = FALSE,
                              plot = TRUE,
-                             plot3d = TRUE){
-
+                             plot3d = TRUE) {
   set.seed(seed)
 
   building <- dplyr::filter(buildings, building_id == id)
   raster_res <- max(terra::res(raster))
-  building_buffer <- sf::st_buffer(building, dist = 2*raster_res)
+  building_buffer <- sf::st_buffer(building, dist = 2 * raster_res)
   building_raster <- terra::crop(raster, building_buffer, mask = TRUE)
 
   slope_raster <- terra::terrain(building_raster,
-                                 v = "slope",
-                                 unit = "degrees") |>
+    v = "slope",
+    unit = "degrees"
+  ) |>
     crop(building, mask = TRUE)
 
 
   facet_polys <- kde_filter(building,
-                            slope_raster,
-                            n = kde_n,
-                            adjust = adjust,
-                            quiet = quiet)
+    slope_raster,
+    n = kde_n,
+    adjust = adjust,
+    quiet = quiet
+  )
 
   building_results <- building_ransac_results(facet_polys,
-                                              raster,
-                                              building_id = id,
-                                              n_iter = ransac_n,
-                                              thresh = threshold,
-                                              min_inliers = min_inliers,
-                                              quiet = quiet)
+    raster,
+    building_id = id,
+    n_iter = ransac_n,
+    thresh = threshold,
+    min_inliers = min_inliers,
+    quiet = quiet
+  )
 
   if (plot) {
-    raster_title = paste0("Elevation Raster - Building ",
-                          building$building_id)
+    raster_title <- paste0(
+      "Elevation Raster - Building ",
+      building$building_id
+    )
     plot_raster(raster,
-                building,
-                title = raster_title)
+      building,
+      title = raster_title
+    )
 
-    slope_title = paste0("Slope Raster - Building ",
-                         building$building_id)
-    # slope_title = paste0("Slope Raster for Building ", building$building_id,
-    #                      " (Bandwidth = ", round(dens$bw, 3), ")")
+    slope_title <- paste0(
+      "Slope Raster - Building ",
+      building$building_id
+    )
+
     plot_raster(slope_raster,
-                building,
-                title = slope_title)
+      building,
+      title = slope_title
+    )
 
-    title = paste0("Final Facets - Building ",
-                   building$building_id)
-    plot_raster(building_results[['facet_polys']],
-                building,
-                title = title)
-    text(building_results[['facet_polys']],
-         labels = names(building_results[['results_list']]),
-         cex = 1.5,
-         font = 2)
+    title <- paste0(
+      "Final Facets - Building ",
+      building$building_id
+    )
+    plot_raster(building_results[["facet_polys"]],
+      building,
+      title = title
+    )
+    text(building_results[["facet_polys"]],
+      labels = names(building_results[["results_list"]]),
+      cex = 1.5,
+      font = 2
+    )
   }
 
   if (plot3d) {
-    plot_facets_3d(results_obj = building_results,
-                   raster = raster,
-                   building = building,
-                   thresh = threshold)
+    plot_facets_3d(
+      results_obj = building_results,
+      raster = raster,
+      building = building,
+      thresh = threshold
+    )
   }
 
   building_results

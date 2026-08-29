@@ -17,17 +17,18 @@ plot_raster <- function(raster,
   bldng_ext <- ext(building) |>
     as.vector()
 
-  xmin <- bldng_ext[1] - ((bldng_ext[2] - bldng_ext[1])/3)
-  xmax <- bldng_ext[2] + ((bldng_ext[2] - bldng_ext[1])/3)
-  ymin <- bldng_ext[3] - ((bldng_ext[4] - bldng_ext[3])/3)
-  ymax <- bldng_ext[4] + ((bldng_ext[4] - bldng_ext[3])/3)
+  xmin <- bldng_ext[1] - ((bldng_ext[2] - bldng_ext[1]) / 3)
+  xmax <- bldng_ext[2] + ((bldng_ext[2] - bldng_ext[1]) / 3)
+  ymin <- bldng_ext[3] - ((bldng_ext[4] - bldng_ext[3]) / 3)
+  ymax <- bldng_ext[4] + ((bldng_ext[4] - bldng_ext[3]) / 3)
 
   cropped_raster <- terra::crop(raster, ext(xmin, xmax, ymin, ymax))
 
   plot(cropped_raster,
-       xlim = c(xmin, xmax),
-       ylim = c(ymin, ymax),
-       main = title)
+    xlim = c(xmin, xmax),
+    ylim = c(ymin, ymax),
+    main = title
+  )
   lines(building, col = "red", lwd = 2)
 }
 
@@ -47,10 +48,8 @@ plot_raster <- function(raster,
 #'     value.
 fun_w_cutoff <- function(x, fun, cutoff) {
   if (mean(!is.na(x)) < cutoff) {
-    return(NA)
-  }
-  else {
-    return(fun(x, na.rm = TRUE))
+    NA
+  } else {
+    fun(x, na.rm = TRUE)
   }
 }
-
