@@ -23,7 +23,7 @@ You can install the development version of facetseparater from
 pak::pak("dawson-tree/facetseparater")
 ```
 
-## Example
+## Package Use
 
 The facetseparater package includes a sample elevation raster, a sample
 snow depth raster, and a set of sample building polygons to get started.
