@@ -185,6 +185,14 @@ building_ransac_results <- function(facets,
     }
   }
 
+  final_facet_polys <- facets[as.numeric(names(results)),]
+
+  names(results) <- seq_along(results)
+
+  for (i in seq_along(results)) {
+    results[[i]][['facet_no']] <- i
+  }
+
   summary_table <- do.call(
     rbind,
     lapply(results, function(x) {
@@ -203,7 +211,7 @@ building_ransac_results <- function(facets,
 
   rownames(summary_table) <- NULL
 
-  final_facet_polys <- facets[as.numeric(names(results)),]
+
 
   building_results <- list(
     results_list  = results,
@@ -211,12 +219,12 @@ building_ransac_results <- function(facets,
     facet_polys = final_facet_polys
   )
 
-  names(building_results[['results_list']]) <-
-    seq_along(building_results[['results_list']])
-
-  for (i in seq_along(building_results[['results_list']])) {
-    building_results[['results_list']][[i]][['facet_no']] <- i
-  }
+  # names(building_results[['results_list']]) <-
+  #   seq_along(building_results[['results_list']])
+  #
+  # for (i in seq_along(building_results[['results_list']])) {
+  #   building_results[['results_list']][[i]][['facet_no']] <- i
+  # }
 
   building_results
 }

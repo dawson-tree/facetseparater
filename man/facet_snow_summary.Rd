@@ -4,7 +4,7 @@
 \alias{facet_snow_summary}
 \title{Summarize the characteristics of a roof facet, including snow depth}
 \usage{
-facet_snow_summary(fs_results, snow_depth, cutoff)
+facet_snow_summary(fs_results, snow_depth, cutoff = 0.8)
 }
 \arguments{
 \item{fs_results}{A list that is the output from the 'facet_separation'

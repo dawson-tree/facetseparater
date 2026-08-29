@@ -1,0 +1,72 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# facetseparater
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of facetseparater is to use LiDAR-derived elevation data to separate building roofs into separate facets and give summary statistics by facet. It builds off the building polygon and roof slope extraction workflow implemented by the rasterpolygonizer package found {here](https://github.com/jashonnew/rasterpolygonizer).
+
+## Installation
+
+You can install the development version of facetseparater from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("dawson-tree/facetseparater")
+```
+
+## Example
+
+The facetseparater package includes a sample elevation raster, a sample snow depth raster, and a set of sample building polygons to get started. The set of polygons can be accessed with the `sample_buildings` variable and both the rasters can be loaded into your global environment like so:
+
+```{r example}
+library(facetseparater)
+library(terra)
+
+sample_raster <- terra::rast(system.file("extdata", 
+                                         "sample_raster.tif", 
+                                         package = "facetseparater"))
+sample_snow_depth <- terra::rast(system.file("extdata", 
+                                             "sample_snow_depth.tif", 
+                                             package = "facetseparater"))
+```
+
+The `plot_raster` function can be used to plot a raster and building polygons in the extent of the polygons.
+
+```{r plot-raster}
+plot_raster(sample_raster,
+            sample_buildings)
+```
+
+The `facet_separation` function is used to separate a specific building roof into its distinct roof facets. The function also has options for whether to print out information about the facet separation, two-dimensional plots showing the process of arriving at the final facets, and three-dimensional plots that give you a closer look at the final facets and how well they fit the data. For the demonstration, we will use the options that print out extra information and two-dimensional plots.
+
+```{r facet-separation}
+fs_results <- facet_separation(4642,
+                               sample_buildings,
+                               sample_raster,
+                               quiet = FALSE,
+                               plot = TRUE,
+                               plot3d = FALSE)
+```
+
+The `facet_snow_summary` function is used on the output from the `facet_separation` function and a snow depth raster to create a dataframe containing the characteristics of each individual roof facet, including slope, aspect, and mean snow depth.
+
+```{r facet-snow-summary}
+fs_snow_results <- facet_snow_summary(fs_results,
+                                      sample_snow_depth)
+fs_snow_results
+```
