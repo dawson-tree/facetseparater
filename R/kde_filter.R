@@ -88,12 +88,15 @@ kde_filter <- function(building,
   if (!quiet) {
 
     # Print KDE summary
-    cat(sprintf("Main Peak at: %.2f\n", main_peak_x))
-    cat(sprintf("Boundaries: [%.2f, %.2f]\n", lower_cutoff, upper_cutoff))
-    cat(sprintf("Retained %d out of %d points (%.1f%%)\n",
+    cat(sprintf("Summary of KDE Filter Results\n"))
+    cat(sprintf("Mode of Slope Distribution: %.2f\u00B0\n", main_peak_x))
+    cat(sprintf("KDE Filter Boundaries: [%.2f\u00B0, %.2f\u00B0]\n", lower_cutoff, upper_cutoff))
+    # cat(sprintf("Retained %d out of %d points (%.1f%%)\n",
+    #             length(filtered_slope_vector), length(slope_vector),
+    #             100 * length(filtered_slope_vector) / length(slope_vector)))
+    cat(sprintf("Points Retained: %d out of %d (%.1f%%)\n",
                 length(filtered_slope_vector), length(slope_vector),
                 100 * length(filtered_slope_vector) / length(slope_vector)))
-
   }
 
   facet_polys <- as.polygons(patch_slope_raster, aggregate = TRUE, na.rm = TRUE)
