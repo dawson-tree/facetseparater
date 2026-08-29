@@ -113,7 +113,7 @@ facet_separation <- function(id,
                                               quiet = quiet)
 
   if (plot) {
-    raster_title = paste0("Corrected Raster - Building ",
+    raster_title = paste0("Elevation Raster - Building ",
                           building$building_id)
     plot_raster(raster,
                 building,
@@ -127,7 +127,7 @@ facet_separation <- function(id,
                 building,
                 title = slope_title)
 
-    title = paste0("Final Facets after RANSAC Algorithm - Building ",
+    title = paste0("Final Facets - Building ",
                    building$building_id)
     plot_raster(building_results[['facet_polys']],
                 building,

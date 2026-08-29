@@ -90,9 +90,11 @@ plot_facets_3d <- function(results_obj,
     # add axes and title
     rgl::axes3d(edges = c("x--", "y+-", "z--"))
     rgl::title3d(main = paste0("Facet ", facet$facet_no,
-                          "  |  slope: ", round(res_entry$slope_deg,2), "o",
-                          "  |  inliers: ", res_entry$n_inliers),
-            xlab = "x", ylab = "y", zlab = "z")
+                          "  |  Slope: ", round(res_entry$slope_deg,2),
+                          "°",
+                          "  |  Inliers: ", res_entry$n_inliers),
+                 line = 7, usePlotmath = TRUE)
+    rgl::title3d(xlab = "x", ylab = "y", zlab = "z", usePlotmath = TRUE)
 
   }
 

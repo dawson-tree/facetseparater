@@ -1,6 +1,8 @@
 library(sf)
 library(terra)
 library(rasterpolygonizer)
+library(dplyr)
+library(ggplot2)
 devtools::load_all(".")
 
 # 3/11/2023
@@ -173,6 +175,9 @@ saveRDS(all_summary_results_0.8, "C:/Users/A02324772/Box/Snow Load Research Stuf
 
 #######################
 
+all_results <- readRDS("C:/Users/A02324772/Box/Snow Load Research Stuff/Data/SnowData/all_summary_results_halfm_80.rds")
+all_results_copy <- all_results
+
 all_results_copy <- all_results_copy |>
   filter(slope_deg > 4.76) |>
   mutate(aspect_direction = case_when(
@@ -182,27 +187,70 @@ all_results_copy <- all_results_copy |>
     aspect_deg > 225 & aspect_deg < 315 ~ "West"
   ))
 
+all_results_copy$aspect_direction <- factor(all_results_copy$aspect_direction,
+                                  levels = c("North",
+                                             "East",
+                                             "South",
+                                             "West"))
+
+
 
 ggplot(data = all_results_copy,
        aes(x = aspect_direction, y = snow_depth, fill = aspect_direction)) +
   geom_boxplot() +
   labs(
-    title = "Snow Depth by Roof Aspect Direction",
-    x = "Roof Aspect Direction",
+    title = "Distributions of Snow Depth by Roof Aspect for Buildings in Fairbanks, Alaska",
+    x = "Roof Aspect",
     y = "Snow Depth (m)",
-    fill = "Roof Aspect Direction"
+    fill = "Roof Aspect"
   ) +
-  theme_minimal()
+  scale_fill_manual(values = c("North" = "dodgerblue1",
+                               "East" = "darkorange1",
+                               "South" = "indianred1",
+                               "West" = "palegreen3")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      size = 17,
+      margin = margin(b = 15),
+      hjust = 0.5),
+    axis.title.x = element_text(
+      size = 14,
+      margin = margin(t = 15)),
+    axis.title.y = element_text(
+      size = 14,
+      margin = margin(r = 15)),
+    axis.text = element_text(
+      size = 12,
+    ),
+    plot.margin = margin(t = 15, r = 20, b = 15, l = 20)
+  )
 
-ggplot(data = all_summary_results_0.8,
+ggplot(data = all_results,
        aes(x = slope_deg, y = snow_depth)) +
-  geom_point() +
+  geom_point(col="dodgerblue1") +
   labs(
-    title = "Snow Depth by Roof Slope",
+    title = "Snow Depth vs Roof Slope for Buildings in Fairbanks, Alaska",
     x = "Roof Slope (degrees)",
     y = "Snow Depth (m)"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      size = 17,
+      margin = margin(b = 15),
+      hjust = 0.5),
+    axis.title.x = element_text(
+      size = 14,
+      margin = margin(t = 15)),
+    axis.title.y = element_text(
+      size = 14,
+      margin = margin(r = 15)),
+    axis.text = element_text(
+      size = 12,
+    ),
+    plot.margin = margin(t = 15, r = 20, b = 15, l = 20)
+  )
 
 cor(
   all_summary_results_0.8$snow_depth,
